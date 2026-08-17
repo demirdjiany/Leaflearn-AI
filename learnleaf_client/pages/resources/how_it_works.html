@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../styles/common/base.css">
+    <link rel="stylesheet" href="../../styles/pages/how_it_works.css">
     <title>How It Works | LearnLeaf</title>
 </head>
 <body>
@@ -31,7 +32,151 @@
     </header>
 
     <main>
-        
+        <div class="how-it-works-layout">
+            <div class="how-it-works-title">
+                <h1> How It Works </h1>
+            </div>
+
+            <div class="how-it-works-content">
+                <article class="content-card is-active" data-step="1">
+                    <div class="card-title">
+                        <span>Step 1</span>
+                        <h2>Create Your Account</h2>
+                    </div>
+                    <div class="card-content">
+                        <p>
+                            Create an account so LearnLeaf can keep your folders, uploaded books,
+                            reading progress, and AI conversations connected to you. If you already
+                            have an account, log in to continue your learning journey.
+                        </p>
+                    </div>
+                    <label class="step-check" for="step-1">
+                        <input class="step-checkbox" id="step-1" type="checkbox">
+                        <span>Mark this step complete</span>
+                    </label>
+                </article>
+
+                <div class="step-arrow" aria-hidden="true">↓</div>
+
+                <article class="content-card" data-step="2">
+                    <div class="card-title">
+                        <span>Step 2</span>
+                        <h2>Create a Learning Folder</h2>
+                    </div>
+                    <div class="card-content">
+                        <p>
+                            Create a folder for the subject you want to study, such as HTML,
+                            JavaScript, or PHP. Folders keep related EPUB books together and give
+                            LearnLeaf a clear topic for future progress summaries.
+                        </p>
+                    </div>
+                    <label class="step-check" for="step-2">
+                        <input class="step-checkbox" id="step-2" type="checkbox" disabled>
+                        <span>Mark this step complete</span>
+                    </label>
+                </article>
+
+                <div class="step-arrow" aria-hidden="true">↓</div>
+
+                <article class="content-card" data-step="3">
+                    <div class="card-title">
+                        <span>Step 3</span>
+                        <h2>Upload an EPUB</h2>
+                    </div>
+                    <div class="card-content">
+                        <p>
+                            Choose a learning folder and upload an EPUB that you legally own or
+                            have permission to use. LearnLeaf will associate the book and its
+                            available metadata with that folder.
+                        </p>
+                    </div>
+                    <label class="step-check" for="step-3">
+                        <input class="step-checkbox" id="step-3" type="checkbox" disabled>
+                        <span>Mark this step complete</span>
+                    </label>
+                </article>
+
+                <div class="step-arrow" aria-hidden="true">↓</div>
+
+                <article class="content-card" data-step="4">
+                    <div class="card-title">
+                        <span>Step 4</span>
+                        <h2>Read and Track Your Progress</h2>
+                    </div>
+                    <div class="card-content">
+                        <p>
+                            Open the EPUB in LearnLeaf's browser reader. Your current reading
+                            position and approximate completion percentage can be saved so you can
+                            return to the book and continue where you stopped.
+                        </p>
+                    </div>
+                    <label class="step-check" for="step-4">
+                        <input class="step-checkbox" id="step-4" type="checkbox" disabled>
+                        <span>Mark this step complete</span>
+                    </label>
+                </article>
+
+                <div class="step-arrow" aria-hidden="true">↓</div>
+
+                <article class="content-card" data-step="5">
+                    <div class="card-title">
+                        <span>Step 5</span>
+                        <h2>Ask the AI Companion</h2>
+                    </div>
+                    <div class="card-content">
+                        <p>
+                            Select a difficult passage or ask a question about material you have
+                            reached. The AI companion uses the relevant reading context to explain
+                            concepts while avoiding content from later in the book where possible.
+                        </p>
+                    </div>
+                    <label class="step-check" for="step-5">
+                        <input class="step-checkbox" id="step-5" type="checkbox" disabled>
+                        <span>Mark this step complete</span>
+                    </label>
+                </article>
+
+                <div class="step-arrow" aria-hidden="true">↓</div>
+
+                <article class="content-card" data-step="6">
+                    <div class="card-title">
+                        <span>Step 6</span>
+                        <h2>Generate Learning Activities</h2>
+                    </div>
+                    <div class="card-content">
+                        <p>
+                            Ask LearnLeaf for a summary, a simpler explanation, revision questions,
+                            or a short quiz based on the material you have completed. These tools
+                            help you review instead of only reading passively.
+                        </p>
+                    </div>
+                    <label class="step-check" for="step-6">
+                        <input class="step-checkbox" id="step-6" type="checkbox" disabled>
+                        <span>Mark this step complete</span>
+                    </label>
+                </article>
+
+                <div class="step-arrow" aria-hidden="true">↓</div>
+
+                <article class="content-card" data-step="7">
+                    <div class="card-title">
+                        <span>Step 7</span>
+                        <h2>Review Your Learning Across Books</h2>
+                    </div>
+                    <div class="card-content">
+                        <p>
+                            When several books belong to the same folder, LearnLeaf can combine the
+                            portions you have reached into a short learning checkpoint. This shows
+                            the main ideas you should understand across your current reading.
+                        </p>
+                    </div>
+                    <label class="step-check" for="step-7">
+                        <input class="step-checkbox" id="step-7" type="checkbox" disabled>
+                        <span>Mark this step complete</span>
+                    </label>
+                </article>
+            </div>
+        </div>
     </main>
 
     <footer>
@@ -44,5 +189,6 @@
             <p>2026 LearnLeaf</p>
         </div>
     </footer>
+    <script src="../../scripts/pages/how_it_works.js" defer></script>
 </body>
 </html>

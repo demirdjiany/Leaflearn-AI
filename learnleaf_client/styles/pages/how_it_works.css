@@ -1,0 +1,104 @@
+.how-it-works-title {
+    margin-bottom: 2.5rem;
+    text-align: center;
+}
+
+.how-it-works-title h1 {
+    margin: 0;
+    font-size: clamp(2.25rem, 6vw, 3.75rem);
+}
+
+.how-it-works-content {
+    width: min(100%, 48rem);
+    margin-inline: auto;
+}
+
+.content-card {
+    padding: 1.5rem;
+    opacity: 0.52;
+    background-color: rgba(255, 250, 240, 0.64);
+    border: 2px solid rgba(93, 59, 42, 0.16);
+    border-radius: 0.75rem;
+    box-shadow: 0 0.5rem 1.25rem rgba(67, 45, 30, 0.07);
+    transition: opacity 220ms ease, background-color 220ms ease,
+        border-color 220ms ease, box-shadow 220ms ease, transform 220ms ease;
+}
+
+.content-card.is-active {
+    opacity: 1;
+    background-color: var(--color-surface);
+    border-color: var(--color-brass);
+    box-shadow: var(--shadow-card);
+    transform: translateY(-0.1rem);
+}
+
+.content-card.is-complete {
+    background-color: #f1f5eb;
+    border-color: var(--color-accent);
+}
+
+.card-title > span {
+    display: block;
+    margin-bottom: 0.25rem;
+    color: var(--color-accent-dark);
+    font-size: 0.78rem;
+    font-weight: 750;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.card-title h2 {
+    margin: 0;
+    font-size: clamp(1.4rem, 3vw, 1.8rem);
+}
+
+.card-content p {
+    margin: 0.85rem 0 1.25rem;
+    color: var(--color-text-muted);
+    font-size: 1.03rem;
+    line-height: 1.75;
+}
+
+.step-check {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    color: var(--color-primary-light);
+    font-weight: 650;
+    cursor: pointer;
+}
+
+.step-checkbox {
+    width: 1.1rem;
+    height: 1.1rem;
+    margin: 0;
+    accent-color: var(--color-accent);
+    cursor: pointer;
+}
+
+.step-checkbox:disabled,
+.step-checkbox:disabled + span {
+    cursor: not-allowed;
+}
+
+.step-arrow {
+    display: grid;
+    min-height: 3rem;
+    place-items: center;
+    color: #a4463d;
+    font-size: 2.25rem;
+    font-weight: 800;
+    line-height: 1;
+    transition: color 220ms ease, transform 220ms ease;
+}
+
+.content-card.is-complete + .step-arrow {
+    color: var(--color-accent);
+    transform: scale(1.12);
+}
+
+@media (max-width: 40rem) {
+    .content-card {
+        padding: 1.25rem;
+    }
+}

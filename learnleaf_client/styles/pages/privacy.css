@@ -1,10 +1,10 @@
-.title {
+.privacy-title {
     margin-bottom: 2rem;
     padding-bottom: 1rem;
     border-bottom: 1px solid var(--color-border);
 }
 
-.title h1 {
+.privacy-title h1 {
     margin: 0;
     font-size: clamp(2rem, 5vw, 3rem);
 }

@@ -132,6 +132,10 @@ footer {
 .footer-legal {
     grid-column: 2;
     justify-self: end;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 0.5rem 1.25rem;
 }
 
 .footer-copyright {
@@ -196,5 +200,9 @@ footer {
         grid-row: auto;
         justify-self: center;
         transform: none;
+    }
+
+    .footer-legal {
+        justify-content: center;
     }
 }

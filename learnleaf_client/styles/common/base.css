@@ -31,13 +31,13 @@ body {
     color: var(--color-text);
     background-color: var(--color-background);
     background-image:
-        linear-gradient(rgba(93, 59, 42, 0.025), rgba(93, 59, 42, 0.025)),
-        repeating-linear-gradient(
+        radial-gradient(circle at top, rgba(255, 250, 240, 0.72), transparent 48rem),
+        linear-gradient(
             90deg,
-            transparent 0,
-            transparent 8rem,
-            rgba(93, 59, 42, 0.035) 8rem,
-            rgba(93, 59, 42, 0.035) calc(8rem + 1px)
+            rgba(93, 59, 42, 0.035),
+            transparent 12%,
+            transparent 88%,
+            rgba(93, 59, 42, 0.035)
         );
     font-family: "Segoe UI", Arial, Helvetica, sans-serif;
     line-height: 1.6;
@@ -55,109 +55,6 @@ h2,
 h3 {
     color: var(--color-primary-dark);
     font-family: Georgia, "Times New Roman", serif;
-}
-
-.title-block {
-    display: flex;
-    min-height: clamp(18rem, 48vh, 30rem);
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    text-align: center;
-}
-
-.main-title h1 {
-    margin: 0;
-    font-size: clamp(3.25rem, 9vw, 6.5rem);
-    line-height: 1;
-    letter-spacing: -0.04em;
-    text-shadow: 0 0.2rem 0.1rem rgba(93, 59, 42, 0.09);
-}
-
-.subtitle h2 {
-    margin: 1.5rem 0 0;
-    color: var(--color-text-muted);
-    font-family: "Segoe UI", Arial, Helvetica, sans-serif;
-    font-size: clamp(0.95rem, 2vw, 1.2rem);
-    font-weight: 450;
-    font-style: italic;
-    letter-spacing: 0.08em;
-    opacity: 0.72;
-}
-
-.welcome-block,
-.policy-intro-block,
-.get-started-block {
-    display: grid;
-    grid-template-columns: minmax(14rem, 0.7fr) minmax(0, 1.3fr);
-    overflow: hidden;
-    margin-bottom: 2rem;
-    background-color: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-left: 0.4rem solid var(--color-accent);
-    border-radius: 0.75rem;
-    box-shadow: var(--shadow-card);
-}
-
-.policy-intro-block {
-    border-left-color: var(--color-brass);
-}
-
-.get-started-block {
-    border-left-color: var(--color-primary-light);
-}
-
-.block-heading {
-    display: flex;
-    align-items: center;
-    padding: 2rem;
-    background:
-        linear-gradient(135deg, rgba(255, 250, 240, 0.45), transparent),
-        var(--color-surface-muted);
-    border-right: 1px solid var(--color-border);
-}
-
-.block-heading h1 {
-    margin: 0;
-    font-size: clamp(1.45rem, 3vw, 2rem);
-    line-height: 1.15;
-}
-
-.block-content {
-    padding: 2rem;
-}
-
-.block-content p {
-    max-width: 62ch;
-    margin: 0 0 1.4rem;
-    color: var(--color-text-muted);
-    line-height: 1.75;
-}
-
-.block-button {
-    display: inline-block;
-    margin: 0.35rem 0.55rem 0.35rem 0;
-    padding: 0.75rem 1.25rem;
-    color: var(--color-text-light);
-    background-color: var(--color-accent);
-    border: 1px solid var(--color-accent-dark);
-    border-radius: 0.45rem;
-    box-shadow: 0 0.2rem 0.45rem rgba(46, 30, 21, 0.15);
-    font-weight: 650;
-    text-decoration: none;
-    transition: background-color 150ms ease, transform 150ms ease, box-shadow 150ms ease;
-}
-
-.block-button:hover,
-.block-button:focus-visible {
-    background-color: var(--color-accent-dark);
-    box-shadow: 0 0.35rem 0.75rem rgba(46, 30, 21, 0.2);
-    transform: translateY(-0.1rem);
-}
-
-.block-button:focus-visible {
-    outline: 0.18rem solid var(--color-focus);
-    outline-offset: 0.18rem;
 }
 
 /* Header and navigation */
@@ -310,35 +207,29 @@ footer {
 }
 
 .footer-legal a {
+    display: inline-flex;
+    min-height: 2.5rem;
+    align-items: center;
+    padding: 0.5rem 0.9rem;
     color: var(--color-text-light);
+    border-radius: 0.4rem;
     text-decoration: none;
-    text-underline-offset: 0.25rem;
+    transition: background-color 150ms ease, color 150ms ease;
 }
 
 .footer-legal a:hover,
 .footer-legal a:focus-visible {
-    text-decoration: underline;
+    background-color: var(--color-primary);
+}
+
+.footer-legal a:focus-visible {
+    outline: 0.125rem solid var(--color-focus);
+    outline-offset: 0.125rem;
 }
 
 @media (max-width: 40rem) {
     main {
         padding-block: 2rem;
-    }
-
-    .welcome-block,
-    .policy-intro-block,
-    .get-started-block {
-        grid-template-columns: 1fr;
-    }
-
-    .block-heading {
-        padding: 1.5rem;
-        border-right: 0;
-        border-bottom: 1px solid var(--color-border);
-    }
-
-    .block-content {
-        padding: 1.5rem;
     }
 
     .navbar {

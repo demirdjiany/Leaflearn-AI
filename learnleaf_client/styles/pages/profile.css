@@ -1,0 +1,283 @@
+.profile-layout {
+    width: min(100% - 2rem, 68rem);
+    display: grid;
+    gap: 1.5rem;
+}
+
+.profile-title {
+    margin: 0;
+    font-size: clamp(2.25rem, 6vw, 3.5rem);
+    line-height: 1.1;
+}
+
+.profile-summary,
+.profile-card {
+    background-color: var(--color-surface);
+    border: 0.0625rem solid var(--color-border);
+    border-radius: 0.9rem;
+    box-shadow: var(--shadow-card);
+}
+
+.profile-summary {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    padding: 1.75rem;
+    border-left: 0.4rem solid var(--color-accent);
+}
+
+.profile-identity h2,
+.profile-identity p,
+.card-heading h2,
+.card-heading p,
+.reading-details h2,
+.reading-details p,
+.account-actions h2,
+.account-actions p {
+    margin: 0;
+}
+
+.profile-identity h2 {
+    font-size: 1.75rem;
+}
+
+.profile-identity > p:last-child,
+.account-actions > div > p:last-child,
+.empty-reading-message,
+.book-folder {
+    color: var(--color-text-muted);
+}
+
+.profile-label,
+.card-eyebrow {
+    color: var(--color-accent-dark);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.profile-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem;
+}
+
+.profile-card {
+    padding: 1.5rem;
+}
+
+.card-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 0.0625rem solid var(--color-border);
+}
+
+.card-heading h2,
+.reading-details h2,
+.account-actions h2 {
+    font-size: 1.45rem;
+}
+
+.account-details {
+    margin: 0;
+}
+
+.account-details > div {
+    display: grid;
+    grid-template-columns: minmax(7rem, 0.75fr) 1.25fr;
+    gap: 1rem;
+    padding-block: 0.85rem;
+    border-bottom: 0.0625rem solid var(--color-surface-muted);
+}
+
+.account-details > div:last-child {
+    border-bottom: 0;
+    padding-bottom: 0;
+}
+
+.account-details dt,
+.learning-stats dt {
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.account-details dd,
+.learning-stats dd {
+    margin: 0;
+    overflow-wrap: anywhere;
+}
+
+.learning-stats {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.8rem;
+    margin: 1rem 0 0;
+}
+
+.learning-stats > div {
+    padding: 1rem;
+    background-color: var(--color-surface-muted);
+    border-radius: 0.65rem;
+}
+
+.learning-stats dd {
+    color: var(--color-primary-dark);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+.continue-reading {
+    display: grid;
+    grid-template-columns: 1fr minmax(15rem, 0.8fr);
+    align-items: center;
+    gap: 2rem;
+}
+
+.empty-reading-message {
+    margin-top: 0.4rem !important;
+}
+
+.book-folder {
+    margin-top: 0.75rem !important;
+    font-size: 0.9rem;
+    font-style: italic;
+}
+
+.reading-progress {
+    display: grid;
+    gap: 0.75rem;
+}
+
+.progress-heading {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.reading-progress progress {
+    width: 100%;
+    height: 0.85rem;
+    overflow: hidden;
+    accent-color: var(--color-accent);
+    border: 0;
+    border-radius: 999px;
+}
+
+.reading-progress progress::-webkit-progress-bar {
+    background-color: var(--color-surface-muted);
+    border-radius: 999px;
+}
+
+.reading-progress progress::-webkit-progress-value {
+    background-color: var(--color-accent);
+    border-radius: 999px;
+}
+
+.reading-progress progress::-moz-progress-bar {
+    background-color: var(--color-accent);
+    border-radius: 999px;
+}
+
+.profile-button {
+    display: inline-flex;
+    min-height: 2.65rem;
+    align-items: center;
+    justify-content: center;
+    padding: 0.65rem 1rem;
+    border: 0.0625rem solid transparent;
+    border-radius: 0.5rem;
+    font: inherit;
+    font-weight: 700;
+    line-height: 1.2;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease;
+}
+
+.profile-button-primary {
+    color: var(--color-text-light);
+    background-color: var(--color-accent-dark);
+}
+
+.profile-button-primary:hover {
+    background-color: var(--color-primary-dark);
+}
+
+.profile-button-secondary {
+    color: var(--color-primary-dark);
+    background-color: transparent;
+    border-color: var(--color-primary-light);
+}
+
+.profile-button-secondary:hover {
+    color: var(--color-text-light);
+    background-color: var(--color-primary-light);
+}
+
+.profile-button:focus-visible {
+    outline: 0.18rem solid var(--color-focus);
+    outline-offset: 0.15rem;
+}
+
+.account-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+}
+
+.action-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 0.75rem;
+}
+
+@media (max-width: 48rem) {
+    .profile-grid,
+    .continue-reading {
+        grid-template-columns: 1fr;
+    }
+
+    .account-actions {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .action-buttons {
+        width: 100%;
+        justify-content: flex-start;
+    }
+}
+
+@media (max-width: 32rem) {
+    .profile-summary {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .card-heading {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .account-details > div,
+    .learning-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .profile-button,
+    .action-buttons {
+        width: 100%;
+    }
+}

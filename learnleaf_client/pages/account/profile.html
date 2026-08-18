@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../styles/common/base.css">
+    <link rel="stylesheet" href="../../styles/pages/profile.css">
     <title>Profile | LearnLeaf</title>
 </head>
 <body>
@@ -36,5 +37,102 @@
         </nav>
     </header>
 
+    <main class="profile-layout">
+        <h1 class="profile-title">Your Profile</h1>
+
+        <section class="profile-summary">
+            <div class="profile-identity">
+                <p class="profile-label">LearnLeaf reader</p>
+                <h2>User's Name</h2>
+                <p>@username &middot; Member since 2026</p>
+            </div>
+        </section>
+
+        <div class="profile-grid">
+            <section class="profile-card">
+                <div class="card-heading">
+                    <div>
+                        <p class="card-eyebrow">Personal details</p>
+                        <h2>Account Information</h2>
+                    </div>
+                    <button class="profile-button profile-button-secondary" type="button">Edit Profile</button>
+                </div>
+
+                <dl class="account-details">
+                    <div>
+                        <dt>Username</dt>
+                        <dd>username</dd>
+                    </div>
+                    <div>
+                        <dt>Full Name</dt>
+                        <dd>User's Name</dd>
+                    </div>
+                    <div>
+                        <dt>Email Address</dt>
+                        <dd>user@example.com</dd>
+                    </div>
+                </dl>
+            </section>
+
+            <section class="profile-card">
+                <div class="card-heading">
+                    <div>
+                        <p class="card-eyebrow">Your activity</p>
+                        <h2>Learning Overview</h2>
+                    </div>
+                </div>
+
+                <dl class="learning-stats">
+                    <div>
+                        <dt>Folders</dt>
+                        <dd>0</dd>
+                    </div>
+                    <div>
+                        <dt>Books</dt>
+                        <dd>0</dd>
+                    </div>
+                    <div>
+                        <dt>Books in Progress</dt>
+                        <dd>0</dd>
+                    </div>
+                    <div>
+                        <dt>Overall Progress</dt>
+                        <dd>0%</dd>
+                    </div>
+                </dl>
+            </section>
+        </div>
+
+        <section class="profile-card continue-reading">
+            <div class="reading-details">
+                <p class="card-eyebrow">Pick up where you left off</p>
+                <h2>Continue Reading</h2>
+                <p class="empty-reading-message">Your most recently opened book will appear here.</p>
+                <p class="book-folder">No book selected</p>
+            </div>
+
+            <div class="reading-progress">
+                <div class="progress-heading">
+                    <span>Reading progress</span>
+                    <span>0%</span>
+                </div>
+                <progress value="0" max="100">0%</progress>
+                <a class="profile-button profile-button-primary" href="../library/book.html">Continue Reading</a>
+            </div>
+        </section>
+
+        <section class="profile-card account-actions">
+            <div>
+                <p class="card-eyebrow">Account settings</p>
+                <h2>Account Actions</h2>
+                <p>Update your password or safely finish your current session.</p>
+            </div>
+
+            <div class="action-buttons">
+                <button class="profile-button profile-button-secondary" type="button">Change Password</button>
+                <button class="profile-button profile-button-primary" type="button">Log Out</button>
+            </div>
+        </section>
+    </main>
 </body>
 </html>

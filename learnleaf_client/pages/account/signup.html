@@ -13,7 +13,7 @@
                 <h1> Sign Up </h1>
             </div>
             <div class="signup-content">
-                <form class="signup-form" method="post">
+                <form class="signup-form" method="post" action="../../../learnleaf_server/API/users/add_user.php">
                     <div class="form-block">
                         <h2> User Info: </h2>
                         <ul>
@@ -23,7 +23,7 @@
                             </li>
                             <li>
                                 <label> Name: </label>
-                                <span> <input type="text" class="form-input" id="name" name="name" required> </span>
+                                <span> <input type="text" class="form-input" id="name" name="full_name" required> </span>
                             </li>
                             <li>
                                 <label> Email Address: </label>
@@ -35,7 +35,7 @@
                             </li>
                             <li>
                                 <label> Confirm Password: </label>
-                                <span> <input type="password" class="form-input" id="confirm-password" name="confirm-password" required> </span>
+                                <span> <input type="password" class="form-input" id="confirm-password" name="confirm_password" required> </span>
                             </li>
                         </ul>
                     </div>

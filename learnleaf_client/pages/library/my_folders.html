@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../styles/common/base.css">
+    <link rel="stylesheet" href="../../styles/pages/my_folders.css">
     <title>My Folders | LearnLeaf</title>
 </head>
 <body>
@@ -15,7 +16,7 @@
                     <a href="#">Books ▾</a>
                     <ul class="dropdown-menu">
                         <li><a href="my_folders.html">My Folders</a></li>
-                        <li><a href="new_folder.html">New Folder</a></li>
+                        <li><a href="my_folders.html">New Folder</a></li>
                     </ul>
                 </li>
                 <li class="dropdown">
@@ -31,11 +32,36 @@
     </header>
 
     <main>
-        <h1>My Folders</h1>
-        <div id="folders-list">
-            <p>No folders have been created yet.</p>
+        <div class="my-folders-layout">
+            <div class="layout-title">
+                <h1> My Folders </h1>
+            </div>
+            <div class="layout-content">
+                <section class="layout-information">
+                    <p>
+                        Keep your books organized by creating folders for different subjects,
+                        courses, or reading goals. Open a folder to view its books, or create a
+                        new one to begin building your library.
+                    </p>
+                </section>
+                <section class="folders-section">
+                    <article class="folder-card">
+                        <h2 class="folder-title">Web Development</h2>
+                        <p class="folder-description">
+                            Books and notes about HTML, CSS, JavaScript, PHP, and MySQL.
+                        </p>
+                        <span class="books-contained">4 books</span>
+                        <a href="folder.html">Open Folder</a>
+                    </article>
+                    <div class="new-folder-card">
+                        <button type="button" class="new-folder-button">
+                            <span class="plus-symbol">+</span>
+                            Create New Folder
+                        </button>
+                    </div>
+                </section>
+            </div>
         </div>
-        <a href="new_folder.html">Create your first folder</a>
     </main>
 
     <footer>

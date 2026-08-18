@@ -1,0 +1,250 @@
+/* Layered paper tones give this page a warmer library atmosphere. */
+body {
+    background-color: #e9dfcb;
+    background-image:
+        radial-gradient(circle at 12% 20%, rgba(255, 250, 240, 0.9), transparent 18rem),
+        radial-gradient(circle at 88% 72%, rgba(177, 131, 70, 0.16), transparent 22rem),
+        repeating-linear-gradient(
+            45deg,
+            rgba(93, 59, 42, 0.025) 0,
+            rgba(93, 59, 42, 0.025) 0.0625rem,
+            transparent 0.0625rem,
+            transparent 1.1rem
+        );
+}
+
+/* These ornaments sit behind the page content like marks on old book paper. */
+body::before,
+body::after {
+    position: fixed;
+    z-index: 0;
+    color: rgba(93, 59, 42, 0.1);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(8rem, 18vw, 15rem);
+    line-height: 1;
+    pointer-events: none;
+}
+
+body::before {
+    top: 7rem;
+    left: 2vw;
+    content: "❦";
+    transform: rotate(-12deg);
+}
+
+body::after {
+    right: 2vw;
+    bottom: 5rem;
+    content: "☙";
+    transform: rotate(12deg);
+}
+
+main,
+footer {
+    position: relative;
+    z-index: 1;
+}
+
+.my-folders-layout {
+    display: grid;
+    gap: 1.5rem;
+}
+
+.layout-title {
+    position: relative;
+    width: fit-content;
+    padding-inline: 1.5rem;
+}
+
+.layout-title::before,
+.layout-title::after {
+    position: absolute;
+    top: 50%;
+    color: var(--color-brass);
+    font-size: 1.25rem;
+    transform: translateY(-50%);
+}
+
+.layout-title::before {
+    left: 0;
+    content: "✦";
+}
+
+.layout-title::after {
+    right: 0;
+    content: "✦";
+}
+
+.layout-title h1 {
+    margin: 0;
+    font-size: clamp(2.5rem, 7vw, 4rem);
+    line-height: 1.1;
+}
+
+.layout-content {
+    display: grid;
+    gap: 1.5rem;
+}
+
+.layout-information {
+    max-width: 48rem;
+    padding: 1.25rem 1.5rem;
+    background-color: rgba(255, 250, 240, 0.88);
+    border: 0.0625rem solid var(--color-border);
+    border-left: 0.35rem solid var(--color-accent);
+    border-radius: 0.25rem 0.75rem 0.75rem 0.25rem;
+    box-shadow: 0 0.5rem 1.25rem rgba(67, 45, 30, 0.08);
+}
+
+.layout-information p {
+    margin: 0;
+    color: var(--color-text-muted);
+    font-size: 1.05rem;
+}
+
+.folders-section {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    gap: 1.25rem;
+    align-items: stretch;
+}
+
+.folder-card,
+.new-folder-card {
+    min-height: 17rem;
+    border-radius: 0.8rem;
+}
+
+.folder-card {
+    position: relative;
+    display: flex;
+    overflow: hidden;
+    flex-direction: column;
+    padding: 1.5rem 1.5rem 1.5rem 1.85rem;
+    background-color: var(--color-surface);
+    background-image: linear-gradient(
+        90deg,
+        rgba(93, 59, 42, 0.07),
+        transparent 1.75rem
+    );
+    border: 0.0625rem solid var(--color-border);
+    box-shadow: var(--shadow-card);
+    transition: transform 160ms ease, box-shadow 160ms ease;
+}
+
+.folder-card::before {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 0.45rem;
+    background-color: var(--color-primary-light);
+    content: "";
+}
+
+.folder-card::after {
+    position: absolute;
+    top: 0.8rem;
+    right: 1rem;
+    color: rgba(177, 131, 70, 0.65);
+    content: "✦";
+}
+
+.folder-card:hover {
+    transform: translateY(-0.25rem);
+    box-shadow: 0 1rem 2.25rem rgba(67, 45, 30, 0.18);
+}
+
+.folder-title {
+    margin: 0 1.5rem 0.65rem 0;
+    font-size: 1.5rem;
+}
+
+.folder-description {
+    flex: 1;
+    margin: 0 0 1.25rem;
+    color: var(--color-text-muted);
+}
+
+.books-contained {
+    display: block;
+    margin-bottom: 0.8rem;
+    color: var(--color-accent-dark);
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+.folder-card a {
+    align-self: flex-start;
+    padding: 0.6rem 0.9rem;
+    color: var(--color-text-light);
+    background-color: var(--color-accent-dark);
+    border-radius: 0.45rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: background-color 150ms ease;
+}
+
+.folder-card a:hover,
+.folder-card a:focus-visible {
+    background-color: var(--color-primary-dark);
+}
+
+.folder-card a:focus-visible,
+.new-folder-button:focus-visible {
+    outline: 0.18rem solid var(--color-focus);
+    outline-offset: 0.15rem;
+}
+
+.new-folder-card {
+    display: grid;
+    padding: 0.65rem;
+    background-color: rgba(255, 250, 240, 0.45);
+    border: 0.15rem dashed var(--color-brass);
+}
+
+.new-folder-button {
+    display: grid;
+    place-content: center;
+    gap: 0.7rem;
+    width: 100%;
+    padding: 1.5rem;
+    color: var(--color-primary-light);
+    background-color: transparent;
+    border: 0;
+    border-radius: 0.5rem;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+    transition: color 150ms ease, background-color 150ms ease;
+}
+
+.plus-symbol {
+    display: grid;
+    width: 3.25rem;
+    height: 3.25rem;
+    margin-inline: auto;
+    place-items: center;
+    color: var(--color-text-light);
+    background-color: var(--color-primary-light);
+    border-radius: 50%;
+    font-size: 2rem;
+    font-weight: 400;
+    line-height: 1;
+}
+
+.new-folder-button:hover,
+.new-folder-button:focus-visible {
+    color: var(--color-primary-dark);
+    background-color: rgba(234, 223, 201, 0.68);
+}
+
+@media (max-width: 36rem) {
+    .layout-title {
+        padding-inline: 1.25rem;
+    }
+
+    .folders-section {
+        grid-template-columns: 1fr;
+    }
+}

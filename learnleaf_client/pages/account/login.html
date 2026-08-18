@@ -3,9 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../../styles/common/base.css">
+    <link rel="stylesheet" href="../../styles/pages/auth.css">
     <title>Log In | LearnLeaf</title>
 </head>
 <body>
+    <main>
+        <div class="login-layout">
+            <div class="login-title">
+                <h1>Log In</h1>
+            </div>
+
+            <div class="login-content">
+                <form class="login-form" method="post">
+                    <div class="form-block">
+                        <h2>Account Information</h2>
+                        <ul>
+                            <li>
+                                <label for="login-email">Email Address:</label>
+                                <span>
+                                    <input
+                                        type="email"
+                                        class="form-input"
+                                        id="login-email"
+                                        name="email"
+                                        autocomplete="email"
+                                        required
+                                    >
+                                </span>
+                            </li>
+                            <li>
+                                <label for="login-password">Password:</label>
+                                <span>
+                                    <input
+                                        type="password"
+                                        class="form-input"
+                                        id="login-password"
+                                        name="password"
+                                        autocomplete="current-password"
+                                        required
+                                    >
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" name="login_submit">Log In</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
 </body>
 </html>

@@ -1,0 +1,249 @@
+:root {
+    color-scheme: light;
+    --auth-background: #d8cbb8;
+    --auth-surface: rgba(255, 250, 240, 0.96);
+    --auth-primary: #5d3b2a;
+    --auth-primary-dark: #39241a;
+    --auth-accent: #697957;
+    --auth-text: #2f2923;
+    --auth-text-muted: #665b50;
+    --auth-border: #cdbb9f;
+    --auth-focus: #b18346;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    margin: 0;
+    display: grid;
+    place-items: center;
+    overflow-x: hidden;
+    color: var(--auth-text);
+    background-color: var(--auth-background);
+    background-image:
+        radial-gradient(circle at 50% 20%, rgba(255, 250, 240, 0.78), transparent 34rem),
+        linear-gradient(135deg, rgba(93, 59, 42, 0.16), rgba(105, 121, 87, 0.14));
+    font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+}
+
+body::before {
+    position: fixed;
+    inset: 0;
+    content: "";
+    pointer-events: none;
+    background:
+        radial-gradient(circle at 15% 80%, rgba(93, 59, 42, 0.12), transparent 24rem),
+        radial-gradient(circle at 88% 12%, rgba(105, 121, 87, 0.14), transparent 26rem);
+    opacity: 0.7;
+}
+
+main {
+    position: relative;
+    z-index: 1;
+    width: min(100% - 2rem, 32rem);
+    padding-block: 2rem;
+}
+
+.signup-layout,
+.login-layout {
+    padding: clamp(1.5rem, 5vw, 2.5rem);
+    background-color: var(--auth-surface);
+    border: 1px solid rgba(93, 59, 42, 0.2);
+    border-radius: 0.85rem;
+    box-shadow: 0 1.25rem 3.5rem rgba(57, 36, 26, 0.24);
+    backdrop-filter: blur(0.5rem);
+    animation: authPanelIn 400ms ease-out both;
+}
+
+.signup-title,
+.login-title {
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.signup-title h1,
+.login-title h1 {
+    margin: 0;
+    color: var(--auth-primary-dark);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(2rem, 7vw, 2.75rem);
+}
+
+.signup-form h2,
+.login-form h2 {
+    margin: 0 0 1rem;
+    color: var(--auth-primary);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.15rem;
+}
+
+.signup-form ul,
+.login-form ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.signup-form li,
+.login-form li {
+    display: grid;
+    gap: 0.4rem;
+    margin-bottom: 1rem;
+}
+
+.signup-form label,
+.login-form label {
+    color: var(--auth-text-muted);
+    font-size: 0.92rem;
+    font-weight: 650;
+}
+
+.signup-form span,
+.login-form span {
+    display: block;
+}
+
+.form-input {
+    width: 100%;
+    min-height: 2.8rem;
+    padding: 0.65rem 0.75rem;
+    color: var(--auth-text);
+    background-color: #fffdf8;
+    border: 1px solid var(--auth-border);
+    border-radius: 0.45rem;
+    font: inherit;
+    outline: none;
+    transition: border-color 150ms ease, box-shadow 150ms ease,
+        background-color 150ms ease;
+}
+
+.form-input:focus {
+    background-color: #ffffff;
+    border-color: var(--auth-accent);
+    box-shadow: 0 0 0 0.2rem rgba(105, 121, 87, 0.18);
+}
+
+.terms-accept {
+    margin-top: 1.25rem;
+    padding: 0.85rem;
+    background-color: rgba(234, 223, 201, 0.45);
+    border: 1px solid var(--auth-border);
+    border-radius: 0.45rem;
+}
+
+.terms-accept label {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.65rem;
+    color: var(--auth-text-muted);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    cursor: pointer;
+}
+
+.terms-checkbox {
+    width: 1.05rem;
+    height: 1.05rem;
+    margin: 0.2rem 0 0;
+    flex: 0 0 auto;
+    accent-color: var(--auth-accent);
+    cursor: pointer;
+}
+
+.terms-accept a {
+    color: var(--auth-primary);
+    font-weight: 700;
+    text-underline-offset: 0.2rem;
+}
+
+.terms-accept a:hover,
+.terms-accept a:focus-visible {
+    color: var(--auth-primary-dark);
+}
+
+.terms-accept a:focus-visible {
+    outline: 0.125rem solid var(--auth-focus);
+    outline-offset: 0.125rem;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1.25rem;
+}
+
+.signup-form button,
+.login-form button {
+    width: 100%;
+    min-height: 2.8rem;
+    margin-top: 0.5rem;
+    padding: 0.65rem 1rem;
+    color: #fffaf0;
+    background-color: var(--auth-accent);
+    border: 1px solid #4e5d3e;
+    border-radius: 0.45rem;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 150ms ease, transform 150ms ease;
+}
+
+.signup-form button:hover,
+.signup-form button:focus-visible,
+.login-form button:hover,
+.login-form button:focus-visible {
+    background-color: #4e5d3e;
+    transform: translateY(-0.08rem);
+}
+
+.signup-form button:focus-visible,
+.login-form button:focus-visible {
+    outline: 0.15rem solid var(--auth-focus);
+    outline-offset: 0.15rem;
+}
+
+.signup-form .form-actions button {
+    width: auto;
+    min-width: 8rem;
+    margin-top: 0;
+}
+
+.login-form .form-actions button {
+    width: auto;
+    min-width: 8rem;
+    margin-top: 0;
+}
+
+.auth-link {
+    margin: 1.25rem 0 0;
+    color: var(--auth-text-muted);
+    text-align: center;
+}
+
+.auth-link a {
+    color: var(--auth-primary);
+    font-weight: 650;
+    text-underline-offset: 0.2rem;
+}
+
+@keyframes authPanelIn {
+    from {
+        opacity: 0;
+        transform: translateY(0.75rem) scale(0.985);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .signup-layout,
+    .login-layout {
+        animation: none;
+    }
+}

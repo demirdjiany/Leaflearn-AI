@@ -3,9 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../../styles/common/base.css">
+    <link rel="stylesheet" href="../../styles/pages/auth.css">
     <title>Sign Up | LearnLeaf</title>
 </head>
 <body>
+    <main>
+        <div class="signup-layout">
+            <div class="signup-title">
+                <h1> Sign Up </h1>
+            </div>
+            <div class="signup-content">
+                <form class="signup-form" method="post">
+                    <div class="form-block">
+                        <h2> User Info: </h2>
+                        <ul>
+                            <li>
+                               <label> Username: </label>
+                               <span> <input type="text" class="form-input" id="username" name="username" required> </span> 
+                            </li>
+                            <li>
+                                <label> Name: </label>
+                                <span> <input type="text" class="form-input" id="name" name="name" required> </span>
+                            </li>
+                            <li>
+                                <label> Email Address: </label>
+                                <span> <input type="email" class="form-input" id="email" name="email" required> </span>
+                            </li>
+                            <li>
+                                <label> Password: </label>
+                                <span> <input type="password" class="form-input" id="password" name="password" required> </span>
+                            </li>
+                            <li>
+                                <label> Confirm Password: </label>
+                                <span> <input type="password" class="form-input" id="confirm-password" name="confirm-password" required> </span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="terms-accept">
+                        <label for="privacy-accept">
+                            <input type="checkbox" class="terms-checkbox" id="privacy-accept" name="privacy_accepted" required>
+                            <span> I have read and agree to the <a href="../resources/privacy.html">Privacy Policy</a>. </span>
+                        </label>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" name="signup_submit">Sign Up</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
 </body>
 </html>

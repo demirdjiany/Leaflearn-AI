@@ -1,14 +1,17 @@
 <?php
 
     include(__DIR__. "/../../database/connection.php");
+    include(__DIR__ . "/../helpers/authenticate_user.php");
 
-    $user_id = -1;
     $name = "";
     $description = "";
+    $user_id = authenticate_user($mysql);
 
-    if (isset($_POST["user_id"])) {
-        $user_id = $_POST["user_id"];
+    if ($user_id === null) {
+        echo json_encode(["success"=> false,"message"=> "please log in before accessing your folders"]);
+        return;
     }
+
     if (isset($_POST["name"])) {
         $name = $_POST["name"];
     }
@@ -16,10 +19,13 @@
         $description = $_POST["description"];
     }
 
-    if ($user_id < 0 OR $name == "" OR $description == "") {
-        echo json_encode(["success"=> false,"message"=> "Missing information or not logged in"]);
+    if ($name == "") {
+        echo json_encode(["success"=> false,"message"=> "Missing folder name"]);
         return;
     }
+
+    $name = trim($name);
+    $description = trim($description);
 
     $sql = "INSERT INTO folders (user_id, name, description) VALUES (?, ?, ?)";
     $query = $mysql->prepare($sql);

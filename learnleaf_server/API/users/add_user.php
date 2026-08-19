@@ -8,6 +8,7 @@
     $password = "";
     $confirm_password = "";
     $privacy_accepted = false;
+    $auth_token = bin2hex(random_bytes(32));
 
     if(isset($_POST["username"])){
         $username = $_POST["username"];
@@ -49,10 +50,11 @@
     }
 
     $password_hash = password_hash($password, PASSWORD_DEFAULT);
+    $auth_token_hash = hash("sha256", $auth_token);
 
-    $sql = "INSERT INTO users (username, full_name, email, password_hash) VALUES (?, ?, ?, ?)";
+    $sql = "INSERT INTO users (auth_token_hash, username, full_name, email, password_hash) VALUES (?, ?, ?, ?, ?)";
     $query = $mysql->prepare($sql);
-    $query->bind_param("ssss", $username, $full_name, $email, $password_hash);
+    $query->bind_param("sssss",$auth_token_hash , $username, $full_name, $email, $password_hash);
 
     if($query->execute()){
         echo json_encode(["success"=> true,"message"=> "Account has been successfully created"]);

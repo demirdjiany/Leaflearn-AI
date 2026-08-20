@@ -13,7 +13,7 @@
                 <h1> Sign Up </h1>
             </div>
             <div class="signup-content">
-                <form class="signup-form" method="post" action="../../../learnleaf_server/API/users/add_user.php">
+                <form class="signup-form" method="post" id="signup-form">
                     <div class="form-block">
                         <h2> User Info: </h2>
                         <ul>
@@ -23,7 +23,7 @@
                             </li>
                             <li>
                                 <label> Name: </label>
-                                <span> <input type="text" class="form-input" id="name" name="full_name" required> </span>
+                                <span> <input type="text" class="form-input" id="full-name" name="full_name" required> </span>
                             </li>
                             <li>
                                 <label> Email Address: </label>
@@ -54,5 +54,9 @@
             </div>
         </div>
     </main>
+
+    <script src="../../scripts/common/axios.min.js"></script>
+    <script src="../../scripts/common/env.js"></script>
+    <script src="../../scripts/pages/signup.js"></script>
 </body>
 </html>

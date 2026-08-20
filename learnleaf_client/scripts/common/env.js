@@ -1,0 +1,1 @@
+const BASE_URL = "http://localhost/seai-01-bootcamp-finalProject/learnleaf_server/API/";

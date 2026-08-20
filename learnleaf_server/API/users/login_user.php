@@ -42,8 +42,6 @@
     $token_query = $mysql->prepare($token_sql);
     $token_query->bind_param("si", $auth_token_hash, $data["id"]);
 
-    $token_query->execute();
-
     if (!$token_query->execute()){
         echo json_encode(["success"=> false,"message"=> "login failed"]);
         return;

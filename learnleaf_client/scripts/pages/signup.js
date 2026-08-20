@@ -31,4 +31,4 @@ form.addEventListener("submit", (event) => {
         .catch(err => {
             alert("sign up has failed");
             console.error(err)});
-})
+        })

@@ -48,5 +48,5 @@
     }
 
     unset($data["password_hash"], $data["auth_token_hash"]);
-    echo json_encode(["success"=> true, "auth_token"=> $auth_token,"data"=> $data]);
+    echo json_encode(["success"=> true, "message"=> "successful login" ,"auth_token"=> $auth_token,"data"=> $data]);
 ?>

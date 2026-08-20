@@ -4,11 +4,78 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../styles/common/base.css">
+    <link rel="stylesheet" href="../../styles/pages/folder.css">
     <title>Folder | LearnLeaf</title>
 </head>
 <body>
-    <main>
-        <h1>Folder</h1>
+    <header>
+        <nav class="navbar">
+            <ul class="nav-menu">
+                <li><a href="../../index.html">LearnLeaf</a></li>
+                <li class="dropdown">
+                    <a href="#">Books ▾</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="my_folders.html">My Folders</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#">Account ▾</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="../account/signup.html">Sign Up</a></li>
+                        <li><a href="../account/login.html">Log In</a></li>
+                        <li><a href="../account/profile.html">Profile</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="folder-page">
+        <div class="folder-layout">
+            <aside class="folder-sidebar">
+                <a class="back-to-folders" href="my_folders.html">← My Folders</a>
+
+                <div class="folder-heading">
+                    <p class="folder-label">Current folder</p>
+                    <h1 id="folder-name"></h1>
+                </div>
+
+                <section class="folder-progress">
+                    <div class="progress-heading">
+                        <h2>Folder Progress</h2>
+                        <span id="progress-text"></span>
+                    </div>
+                    <progress id="progress" value="0" max="100">0%</progress>
+                </section>
+
+                <section class="folder-information">
+                    <div class="folder-description">
+                        <h2>Description</h2>
+                        <p id="description"></p>
+                    </div>
+                    <div class="book-information">
+                        <h2>Currently Reading</h2>
+                        <p id="current-book"></p>
+                    </div>
+                </section>
+            </aside>
+
+            <section class="folder-content">
+                <div class="books-heading">
+                    <div>
+                        <p class="section-label">Your collection</p>
+                        <h2>Books</h2>
+                    </div>
+                    <button type="button" id="add-book-button">+ Add Book</button>
+                </div>
+
+                <section class="book-grid"></section>
+            </section>
+        </div>
     </main>
+
+    <script src="../../scripts/common/axios.min.js"></script>
+    <script src="../../scripts/common/env.js"></script>
+    <script src="../../scripts/pages/folder.js"></script>
 </body>
 </html>

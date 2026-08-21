@@ -4,11 +4,59 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../styles/common/base.css">
+    <link rel="stylesheet" href="../../styles/pages/book.css">
     <title>Book | LearnLeaf</title>
 </head>
 <body>
-    <main>
-        <h1>Book</h1>
+    <header>
+        <nav class="navbar">
+            <ul class="nav-menu">
+                <li><a href="../../index.html">LearnLeaf</a></li>
+                <li class="dropdown">
+                    <a href="#">Books ▾</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="my_folders.html">My Folders</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#">Account ▾</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="../account/signup.html">Sign Up</a></li>
+                        <li><a href="../account/login.html">Log In</a></li>
+                        <li><a href="../account/profile.html">Profile</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <main class="book-page">
+        <div class="reader-layout">
+            <div class="reader-side reader-side-left"></div>
+
+            <section class="epub-reader">
+                <div class="reader-topbar">
+                    <p class="reader-label">LearnLeaf Reader</p>
+                    <h1 id="book-title"></h1>
+                    <p class="page-counter" id="page-counter">Reading progress: 0%</p>
+                </div>
+
+                <div class="reader-control">
+                    <div class="epub-render" id="epub-render"></div>
+                </div>
+            </section>
+
+            <div class="reader-side reader-side-right"></div>
+        </div>
     </main>
+
+    <footer class="book-footer">
+        <p>LearnLeaf Reader</p>
+    </footer>
+
+    <script src="../../scripts/common/jszip.min.js"></script>
+    <script src="../../scripts/common/epub.min.js"></script>
+    <script src="../../scripts/common/axios.min.js"></script>
+    <script src="../../scripts/common/env.js"></script>
+    <script src="../../scripts/pages/book.js"></script>
 </body>
 </html>

@@ -1,0 +1,198 @@
+.book-page {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.reader-layout {
+    display: grid;
+    grid-template-columns: minmax(7rem, 1fr) minmax(0, 56rem) minmax(7rem, 1fr);
+    grid-template-rows: minmax(0, 1fr);
+    height: calc(140vh - 9rem);
+}
+
+.reader-side {
+    position: relative;
+    overflow: hidden;
+    background-color: #344037;
+    background-image:
+        linear-gradient(rgba(35, 28, 23, 0.3), rgba(35, 28, 23, 0.3)),
+        repeating-linear-gradient(
+            94deg,
+            rgba(255, 255, 255, 0.035) 0,
+            rgba(255, 255, 255, 0.035) 0.14rem,
+            transparent 0.2rem,
+            transparent 1.35rem
+        );
+}
+
+.reader-side::before,
+.reader-side::after {
+    position: absolute;
+    color: rgba(244, 235, 216, 0.12);
+    font-family: Georgia, "Times New Roman", serif;
+    pointer-events: none;
+}
+
+.reader-side-left::before {
+    top: 12%;
+    right: -1.5rem;
+    content: "✦";
+    font-size: clamp(7rem, 14vw, 12rem);
+}
+
+.reader-side-left::after {
+    bottom: 8%;
+    left: 1rem;
+    content: "✒";
+    font-size: clamp(5rem, 10vw, 8rem);
+    transform: rotate(-12deg);
+}
+
+.reader-side-right::before {
+    top: 10%;
+    left: -1.5rem;
+    content: "❦";
+    font-size: clamp(7rem, 14vw, 12rem);
+}
+
+.reader-side-right::after {
+    right: 1rem;
+    bottom: 8%;
+    content: "✦";
+    font-size: clamp(5rem, 10vw, 8rem);
+}
+
+.epub-reader {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    min-height: 0;
+    padding: clamp(1.5rem, 4vw, 3rem);
+    background-color: #eee5d5;
+    background-image:
+        radial-gradient(circle at top, rgba(255, 253, 247, 0.9), transparent 34rem),
+        linear-gradient(90deg, rgba(93, 59, 42, 0.055), transparent 8%, transparent 92%, rgba(93, 59, 42, 0.055));
+    border-inline: 0.2rem solid var(--color-brass);
+}
+
+.reader-topbar {
+    padding-bottom: 1rem;
+    border-bottom: 0.0625rem solid var(--color-border);
+}
+
+.reader-label {
+    margin: 0 0 0.2rem;
+    color: var(--color-accent-dark);
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.reader-topbar h1 {
+    min-height: 2rem;
+    margin: 0;
+    font-size: clamp(1.7rem, 4vw, 2.5rem);
+}
+
+.page-counter {
+    margin: 0.45rem 0 0;
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+    font-style: italic;
+}
+
+.reader-control {
+    display: flex;
+    flex: 1;
+    min-height: 0;
+    margin-top: 1.5rem;
+    overflow: hidden;
+}
+
+.epub-render {
+    display: block;
+    position: relative;
+    flex: 1;
+    min-width: 0;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-color: #806044 #e4cfaa;
+    scrollbar-width: thin;
+    margin: 0;
+    padding: 0;
+    background-color: #efe0c5;
+    border: 0.0625rem solid var(--color-border);
+    border-radius: 0.35rem;
+    box-shadow: 0 0.75rem 2rem rgba(67, 45, 30, 0.1);
+}
+
+.epub-render::-webkit-scrollbar {
+    width: 0.7rem;
+}
+
+.epub-render::-webkit-scrollbar-track {
+    background-color: #e4cfaa;
+}
+
+.epub-render::-webkit-scrollbar-thumb {
+    background-color: #806044;
+    border: 0.15rem solid #e4cfaa;
+    border-radius: 1rem;
+}
+
+.epub-render iframe {
+    max-width: 100%;
+    border: 0;
+}
+
+.reader-placeholder {
+    margin: 0;
+    color: var(--color-text-muted);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.1rem;
+    font-style: italic;
+    text-align: center;
+}
+
+.book-footer {
+    display: grid;
+    min-height: 3rem;
+    margin-top: 0;
+    padding: 0.65rem 1rem;
+    place-items: center;
+    color: rgba(255, 250, 240, 0.82);
+    background-color: #344037;
+    background-image: repeating-linear-gradient(
+        94deg,
+        rgba(255, 255, 255, 0.03) 0,
+        rgba(255, 255, 255, 0.03) 0.15rem,
+        transparent 0.2rem,
+        transparent 1.3rem
+    );
+    border-top: 0.2rem solid var(--color-brass);
+}
+
+.book-footer p {
+    margin: 0;
+    font-size: 0.85rem;
+    font-style: italic;
+}
+
+@media (max-width: 44rem) {
+    .reader-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .reader-side {
+        display: none;
+    }
+
+    .epub-reader {
+        min-height: calc(100vh - 7rem);
+        border-inline: 0;
+    }
+
+}

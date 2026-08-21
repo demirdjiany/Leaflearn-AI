@@ -156,4 +156,41 @@ function renderBookCards(data){
     });
 }
 
+function getFolder(){
+    const auth_token = localStorage.getItem("auth_token");
+
+    const request_data = new URLSearchParams();
+    request_data.append("auth_token", auth_token);
+    request_data.append("id", folder_id);
+
+    axios.post(BASE_URL + "folders/get_folder.php", request_data)
+        .then(res => {
+            if(!res.data.success){
+                alert(res.data.message);
+                return;
+            }
+
+            renderFolderInformation(res.data.data)
+        })
+        .catch(err => {
+            alert(err);
+            console.error(err);
+        })
+}
+
+function renderFolderInformation(data){
+    const folder_name = document.getElementById("folder-name");
+    const folder_description = document.getElementById("description");
+
+    folder_name.textContent = data.name;
+
+    if (data.description) {
+        folder_description.textContent = data.description;
+    }
+    else {
+        folder_description.textContent = "No description provided.";
+    }
+}
+
 getEpubs();
+getFolder();

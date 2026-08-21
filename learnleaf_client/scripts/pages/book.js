@@ -6,6 +6,9 @@ const page_counter = document.getElementById("page-counter");
 const render_area = document.getElementById("epub-render");
 
 let rendition;
+let reading_progress;
+let current_location;
+let save_timeout;
 
 function getEpubPath(){
     const auth_token = localStorage.getItem("auth_token");
@@ -31,6 +34,7 @@ function getEpubPath(){
 }
 
 function renderEpub(data){
+    const saved_location = data.epub_current_location;
     const path = `../../../learnleaf_server/${data.epub_file_path}`;
     const title = data.title;
     
@@ -54,16 +58,52 @@ function renderEpub(data){
     });
 
     rendition.on("relocated", (location) => {
-        const reading_progress = Math.round(location.start.percentage * 100);
+        reading_progress = Math.round(location.start.percentage * 100);
 
         page_counter.textContent = `Reading progress: ${reading_progress}%`;
+        current_location = location.start.cfi;
+        
+        clearTimeout(save_timeout);
+
+        save_timeout = setTimeout(() => {
+            saveReadingProgress();
+        }, 1000);
     });
 
     book.ready.then(() => {
         return book.locations.generate(1024);
     });
 
-    rendition.display();
+    if(saved_location){
+        rendition.display(saved_location);
+    }
+    else{
+        rendition.display();
+    }
 }
+
+function saveReadingProgress(){
+    const auth_token = localStorage.getItem("auth_token");
+
+    const request_data = new URLSearchParams();
+    request_data.append("auth_token", auth_token);
+    request_data.append("folder_id", folder_id);
+    request_data.append("epub_id", epub_id);
+    request_data.append("epub_current_location", current_location);
+    request_data.append("progress_percentage", reading_progress);
+
+    axios.post(BASE_URL + "epubs/save_reading_progress.php", request_data)
+        .then(res => {
+            if(!res.data.success){
+                alert(res.data.message);
+                return;
+            }
+
+        })
+        .catch(err => {
+            alert(err);
+            console.error(err);
+        })
+}  
 
 getEpubPath();

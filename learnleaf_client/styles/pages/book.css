@@ -148,6 +148,13 @@
     border: 0;
 }
 
+.epub-render .epub-view:not(:last-child) {
+    position: relative;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 0.0625rem solid rgba(128, 96, 68, 0.5);
+}
+
 .reader-placeholder {
     margin: 0;
     color: var(--color-text-muted);

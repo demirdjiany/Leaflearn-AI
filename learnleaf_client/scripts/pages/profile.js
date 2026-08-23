@@ -4,8 +4,19 @@ const member_since = document.getElementById("member-since");
 const account_username = document.getElementById("account-username");
 const account_name = document.getElementById("account-name");
 const account_email = document.getElementById("account-email");
+const folder_count = document.getElementById("folder-count");
+const book_count = document.getElementById("book-count");
+const book_started_count = document.getElementById("books-in-progress-count");
+const overall_progress = document.getElementById("overall-progress");
+const current_book_title = document.getElementById("current-book-title");
+const current_book_folder = document.getElementById("current-book-folder");
+const current_book_reading_progress = document.getElementById("reading-progress-percentage");
+const current_book_reading_progress_bar = document.getElementById("reading-progress-bar");
+const current_book_button = document.getElementById("continue-reading-link");
 
 const logout_btn = document.getElementById("logout-button");
+
+// profile summary + account info
 
 function getCurrentUser(){
     const auth_token = localStorage.getItem("auth_token");
@@ -70,4 +81,171 @@ function renderAccountInformation(users_name, users_username, users_email){
     account_email.textContent = users_email;
 }
 
+// Learning Overview rendering
+
+function getFolders(){
+    const auth_token = localStorage.getItem("auth_token");
+
+    const request_data = new URLSearchParams();
+    request_data.append("auth_token", auth_token);
+
+    axios.post(BASE_URL + "folders/get_folders.php", request_data)
+        .then(res => {
+            if (!res.data.success){
+                alert(res.data.message);
+                return;
+            }
+            
+            getEpubs(res.data.data);
+            countFolders(res.data.data);
+        })
+        .catch(err => {
+            alert(err);
+            console.error(err);
+        })
+}
+
+function getEpubs(folders_data){
+    folders_data.forEach((folder_data) => {
+        const auth_token = localStorage.getItem("auth_token");
+
+        const request_data = new URLSearchParams();
+        request_data.append("auth_token", auth_token);
+        request_data.append("folder_id", folder_data.id);
+
+        axios.post(BASE_URL + "epubs/get_epubs.php", request_data)
+            .then(res => {
+                if (!res.data.success){
+                    alert(res.data.message);
+                    return;
+                }
+
+                countEpubs(res.data.data);
+                calculateTotalProgress(res.data.data);
+                findLastBookRead(res.data.data);
+            })
+            .catch(err => {
+                alert(err);
+                console.error(err);
+            })
+    })
+}
+
+let folder_num = 0;
+
+function countFolders(folders_data){
+    folders_data.forEach(() => {
+        folder_num++;
+    })
+
+    renderFolderCount(folder_num);
+}
+
+let epub_num = 0;
+let epub_in_progress = 0;
+
+function countEpubs(epubs_data){
+    epubs_data.forEach((epub_data) => {
+        epub_num++;
+
+        if(epub_data.progress_percentage > 0 && epub_data.progress_percentage < 100){
+            epub_in_progress++;
+        }
+    })
+
+    renderEpubCount(epub_num, epub_in_progress);
+}
+
+function renderFolderCount(folder_num){
+    folder_count.textContent = folder_num;
+}
+
+function renderEpubCount(epub_num, epub_in_progress){
+    book_count.textContent = epub_num;
+    book_started_count.textContent = epub_in_progress;
+}
+
+let epub_nums = 0;
+let total_num = 0;
+
+function calculateTotalProgress(epubs_data){
+    epubs_data.forEach((epub_data) => {
+        epub_nums++;
+        total_num += Number(epub_data.progress_percentage); 
+    })
+
+    if (epub_nums == 0){
+        return;
+    }
+
+    const total_progress = total_num/epub_nums;
+    renderOverallProgress(total_progress);
+}
+
+function renderOverallProgress(total_progress){
+    overall_progress.textContent = `${total_progress}%`
+}
+
+// last book read
+let last_book = null;
+
+function findLastBookRead(epubs_data){
+    epubs_data.forEach((epub_data) => {
+        if(!epub_data){
+            return;
+        }
+
+        if(last_book === null){
+            last_book = epub_data;
+            return;
+        }
+
+        if(new Date(last_book.last_read_at) < new Date(epub_data.last_read_at)){
+            last_book = epub_data;
+        }
+    })
+
+    renderLastRead(last_book);
+    findLastBookFolder(last_book);
+}
+
+function findLastBookFolder(last_book){
+    const auth_token = localStorage.getItem("auth_token");
+
+    const request_data = new URLSearchParams();
+    request_data.append("auth_token", auth_token);
+    request_data.append("id", last_book.folder_id);
+
+    axios.post(BASE_URL + "folders/get_folder.php", request_data)
+        .then(res => {
+            if(!res.data.success){
+                alert(res.data.message);
+                return;
+            }
+
+            renderLastReadsFolder(res.data.data);
+            continueReadingLinkUpdate(last_book, res.data.data)
+        })
+        .catch(err => {
+            alert(err);
+            console.error(err);
+        })
+}
+
+function renderLastRead(last_book){
+    current_book_title.textContent = last_book.title;
+    current_book_reading_progress.textContent = `${Number(last_book.progress_percentage)}%`;
+    current_book_reading_progress_bar.value = Number(last_book.progress_percentage);
+}
+
+function renderLastReadsFolder(folder){
+    current_book_folder.textContent = folder.name;
+}
+
+function continueReadingLinkUpdate(last_book, folder){
+    current_book_button.href = `../library/book.html?folder_id=${encodeURIComponent(folder.id)}&epub_id=${encodeURIComponent(last_book.id)}`; 
+}
+
 getCurrentUser();
+getFolders();
+

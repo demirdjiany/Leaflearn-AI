@@ -110,14 +110,14 @@ function getEpubs(){
 
     axios.post(BASE_URL + "epubs/get_epubs.php", request_data)
         .then(res => {
-            if (!Array.isArray(res.data)){
+            if (!res.data.success){
                 alert(res.data.message);
                 return;
             }
             
-            renderBookCards(res.data);
-            calculateTotalProgress(res.data);
-            findLastReadEpub(res.data);
+            renderBookCards(res.data.data);
+            calculateTotalProgress(res.data.data);
+            findLastReadEpub(res.data.data);
         })
         .catch(err => {
             alert(err);

@@ -1,6 +1,9 @@
 const add_book_button = document.getElementById("add-book-button");
 const url_parameters = new URLSearchParams(window.location.search);
 const folder_id = url_parameters.get("folder_id");
+const continue_reading = document.getElementById("continue-reading-button");
+let total_progress;
+let last_read = null;
 
 add_book_button.addEventListener("click", () => {
     if (document.querySelector(".book-form-overlay")) {
@@ -113,6 +116,8 @@ function getEpubs(){
             }
             
             renderBookCards(res.data);
+            calculateTotalProgress(res.data);
+            findLastReadEpub(res.data);
         })
         .catch(err => {
             alert(err);
@@ -120,20 +125,24 @@ function getEpubs(){
         });
 }
 
-function renderBookCards(data){
+function renderBookCards(epubs_data){
     const book_grid = document.querySelector(".book-grid");
 
     book_grid.querySelectorAll(".card-background").forEach((book_card) => {
         book_card.remove();
     });
 
-    data.forEach((book_data) => {
+    epubs_data.forEach((epub_data) => {
         const book_card = document.createElement("article");
         const card_title = document.createElement("div");
         const book_title = document.createElement("h3");
         const card_information = document.createElement("div");
         const file_label = document.createElement("p");
         const original_filename = document.createElement("p");
+        const progress_information = document.createElement("div");
+        const progress_label = document.createElement("p");
+        const reading_progress = document.createElement("progress");
+        const progress_percentage = Number(epub_data.progress_percentage);
         const link_to_book = document.createElement("a");
 
         book_card.classList.add("card-background");
@@ -141,16 +150,24 @@ function renderBookCards(data){
         card_information.classList.add("card-information");
         file_label.classList.add("book-author");
         original_filename.classList.add("book-description");
+        progress_information.classList.add("book-progress");
+        progress_label.classList.add("book-progress-label");
+        reading_progress.classList.add("reading-progress");
 
-        book_title.textContent = book_data.title;
+        reading_progress.max = 100;
+        reading_progress.value = progress_percentage;
+
+        book_title.textContent = epub_data.title;
         file_label.textContent = "EPUB file";
-        original_filename.textContent = book_data.original_filename;
-
+        original_filename.textContent = epub_data.original_filename;
+        progress_label.textContent = `Reading progress: ${progress_percentage}%`;
+        reading_progress.textContent = `${progress_percentage}%`;
         link_to_book.textContent = "Open Book";
-        link_to_book.href = `book.html?folder_id=${encodeURIComponent(folder_id)}&epub_id=${encodeURIComponent(book_data.id)}`;
+        link_to_book.href = `book.html?folder_id=${encodeURIComponent(folder_id)}&epub_id=${encodeURIComponent(epub_data.id)}`;
 
         card_title.append(book_title);
-        card_information.append(file_label, original_filename, link_to_book);
+        progress_information.append(progress_label, reading_progress);
+        card_information.append(file_label, original_filename, progress_information, link_to_book);
         book_card.append(card_title, card_information);
         book_grid.append(book_card);
     });
@@ -178,19 +195,79 @@ function getFolder(){
         })
 }
 
-function renderFolderInformation(data){
+function renderFolderInformation(folder_data){
     const folder_name = document.getElementById("folder-name");
     const folder_description = document.getElementById("description");
 
-    folder_name.textContent = data.name;
+    folder_name.textContent = folder_data.name;
 
-    if (data.description) {
-        folder_description.textContent = data.description;
+    if (folder_data.description) {
+        folder_description.textContent = folder_data.description;
     }
     else {
         folder_description.textContent = "No description provided.";
     }
 }
+
+function calculateTotalProgress(epubs_data){
+    let epub_num = 0;
+    let total_num = 0;
+
+    epubs_data.forEach((epub_data) => {
+        epub_num++;
+        total_num += Number(epub_data.progress_percentage); 
+    })
+
+    if (epub_num == 0){
+        return;
+    }
+
+    total_progress = total_num/epub_num;
+    renderFolderProgress();
+}
+
+function renderFolderProgress(){
+    const folder_progress = document.getElementById("progress");
+    const progress_text = document.getElementById("progress-text");
+
+    folder_progress.value = total_progress;
+    progress_text.textContent = `${total_progress}%`;
+}
+
+function findLastReadEpub(epubs_data){
+
+    epubs_data.forEach((epub_data) => {
+        if(!epub_data.last_read_at){
+            return;
+        }
+
+        if(!last_read){
+            last_read = epub_data;
+            return;
+        }
+
+        if(new Date(epub_data.last_read_at) > new Date(last_read.last_read_at)){
+            last_read = epub_data;
+        }
+    })
+
+    renderLastRead(last_read);
+}
+
+function renderLastRead(last_read){
+    const current_read = document.getElementById("current-book");
+
+    if (!last_read) {
+        current_read.textContent = "No books read yet.";
+        return;
+    }
+
+    current_read.textContent = last_read.title;
+}
+
+continue_reading.addEventListener("click", () => {
+    window.location.href = `book.html?folder_id=${encodeURIComponent(folder_id)}&epub_id=${encodeURIComponent(last_read.id)}`;
+})
 
 getEpubs();
 getFolder();

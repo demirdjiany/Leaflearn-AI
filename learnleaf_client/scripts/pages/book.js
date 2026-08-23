@@ -72,14 +72,14 @@ function renderEpub(data){
 
     book.ready.then(() => {
         return book.locations.generate(1024);
+    }).then(() => {
+        if(saved_location){
+            return rendition.display(saved_location);
+        }
+        else{
+            return rendition.display();
+        }
     });
-
-    if(saved_location){
-        rendition.display(saved_location);
-    }
-    else{
-        rendition.display();
-    }
 }
 
 function saveReadingProgress(){

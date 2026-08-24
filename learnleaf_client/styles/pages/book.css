@@ -63,6 +63,42 @@
     font-size: clamp(5rem, 10vw, 8rem);
 }
 
+.reader-side-right {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 1.25rem 0.75rem;
+}
+
+#ask-ai-button {
+    position: sticky;
+    top: 1.25rem;
+    z-index: 1;
+    width: min(100%, 10rem);
+    min-height: 2.8rem;
+    padding: 0.65rem 0.8rem;
+    color: var(--color-text-light);
+    background-color: var(--color-accent-dark);
+    border: 0.0625rem solid rgba(255, 250, 240, 0.25);
+    border-radius: 0.45rem;
+    box-shadow: 0 0.5rem 1rem rgba(20, 29, 23, 0.28);
+    font: inherit;
+    font-size: 0.9rem;
+    font-weight: 700;
+    line-height: 1.2;
+    cursor: pointer;
+}
+
+#ask-ai-button:hover,
+#ask-ai-button:focus-visible {
+    background-color: var(--color-accent);
+}
+
+#ask-ai-button:focus-visible {
+    outline: 0.15rem solid var(--color-focus);
+    outline-offset: 0.15rem;
+}
+
 .epub-reader {
     display: flex;
     flex-direction: column;
@@ -188,6 +224,145 @@
     font-style: italic;
 }
 
+/* Ask-AI modal */
+.ask-ai-modal-open {
+    overflow: hidden;
+}
+
+.ask-ai-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: grid;
+    place-items: center;
+    padding: 1rem;
+    background-color: rgba(30, 40, 33, 0.72);
+    backdrop-filter: blur(0.3rem);
+    animation: ask-ai-overlay-in 180ms ease-out both;
+}
+
+.ask-ai-form {
+    width: min(100%, 34rem);
+    padding: clamp(1.5rem, 5vw, 2.5rem);
+    background-color: rgba(255, 250, 240, 0.98);
+    border: 0.0625rem solid rgba(93, 59, 42, 0.2);
+    border-radius: 0.85rem;
+    box-shadow: 0 1.25rem 3.5rem rgba(28, 19, 14, 0.4);
+    animation: ask-ai-form-in 260ms ease-out both;
+}
+
+.ask-ai-form h2 {
+    margin: 0;
+    color: var(--color-primary-dark);
+    font-size: clamp(1.8rem, 6vw, 2.35rem);
+    text-align: center;
+}
+
+.ask-ai-description {
+    margin: 0.6rem 0 1.25rem;
+    color: var(--color-text-muted);
+    font-style: italic;
+    text-align: center;
+}
+
+.ask-ai-response {
+    max-height: min(50vh, 28rem);
+    margin: 1.25rem 0 0;
+    overflow-y: auto;
+    color: var(--color-text);
+    font-size: 1.05rem;
+    line-height: 1.65;
+    white-space: pre-wrap;
+}
+
+.ask-ai-input {
+    width: 100%;
+    min-height: 8rem;
+    padding: 0.75rem;
+    resize: vertical;
+    color: var(--color-text);
+    background-color: #fffdf8;
+    border: 0.0625rem solid var(--color-border);
+    border-radius: 0.45rem;
+    font: inherit;
+    line-height: 1.5;
+    outline: none;
+}
+
+.ask-ai-input:focus {
+    background-color: #ffffff;
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 0.2rem rgba(105, 121, 87, 0.18);
+}
+
+.ask-ai-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+}
+
+.ask-ai-submit,
+.ask-ai-cancel {
+    min-height: 2.8rem;
+    padding: 0.65rem 1rem;
+    border-radius: 0.45rem;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.ask-ai-submit {
+    color: var(--color-text-light);
+    background-color: var(--color-accent);
+    border: 0.0625rem solid var(--color-accent-dark);
+}
+
+.ask-ai-submit:hover,
+.ask-ai-submit:focus-visible {
+    background-color: var(--color-accent-dark);
+}
+
+.ask-ai-cancel {
+    color: var(--color-primary);
+    background-color: transparent;
+    border: 0.0625rem solid var(--color-primary-light);
+}
+
+.ask-ai-cancel:hover,
+.ask-ai-cancel:focus-visible {
+    color: var(--color-text-light);
+    background-color: var(--color-primary-light);
+}
+
+.ask-ai-submit:focus-visible,
+.ask-ai-cancel:focus-visible {
+    outline: 0.15rem solid var(--color-focus);
+    outline-offset: 0.15rem;
+}
+
+@keyframes ask-ai-overlay-in {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes ask-ai-form-in {
+    from {
+        opacity: 0;
+        transform: translateY(0.75rem) scale(0.985);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
 @media (max-width: 44rem) {
     .reader-layout {
         grid-template-columns: 1fr;
@@ -202,4 +377,20 @@
         border-inline: 0;
     }
 
+    .ask-ai-actions {
+        flex-direction: column-reverse;
+    }
+
+    .ask-ai-submit,
+    .ask-ai-cancel {
+        width: 100%;
+    }
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ask-ai-overlay,
+    .ask-ai-form {
+        animation: none;
+    }
 }

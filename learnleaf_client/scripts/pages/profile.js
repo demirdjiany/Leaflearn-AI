@@ -100,6 +100,8 @@ change_password_btn.addEventListener("click", () => {
                 }
 
                 alert(res.data.message);
+                overlay.remove();
+                document.body.classList.remove("change-password-modal-open");
             })
             .catch(err => {
                 alert(err);

@@ -282,6 +282,12 @@
     gap: 1rem;
 }
 
+.edit-profile-label {
+    margin-bottom: -0.6rem;
+    color: var(--color-primary-dark);
+    font-weight: 700;
+}
+
 .change-password-input {
     width: 100%;
     min-height: 2.8rem;

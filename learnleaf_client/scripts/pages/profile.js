@@ -14,6 +14,7 @@ const current_book_reading_progress = document.getElementById("reading-progress-
 const current_book_reading_progress_bar = document.getElementById("reading-progress-bar");
 const current_book_button = document.getElementById("continue-reading-link");
 
+const edit_profile_btn = document.getElementById("edit-profile-button");
 const change_password_btn = document.getElementById("change-password-button");
 const logout_btn = document.getElementById("logout-button");
 
@@ -149,8 +150,104 @@ function getCurrentUser(){
         });
 }
 
-change_password_btn.addEventListener("click", () => {
-    
+edit_profile_btn.addEventListener("click", () => {
+    if (document.querySelector(".edit-profile-overlay")) {
+        return;
+    }
+
+    const overlay = document.createElement("div");
+    const form = document.createElement("form");
+    const form_title = document.createElement("h2");
+    const form_fields = document.createElement("div");
+    const full_name_label = document.createElement("label");
+    const full_name_input = document.createElement("input");
+    const username_label = document.createElement("label");
+    const username_input = document.createElement("input");
+    const form_actions = document.createElement("div");
+    const cancel_button = document.createElement("button");
+    const submit_button = document.createElement("input");
+
+    overlay.classList.add("change-password-overlay", "edit-profile-overlay");
+    form.classList.add("change-password-form", "edit-profile-form");
+    form.id = "edit-profile-form";
+    form_title.textContent = "Edit Profile";
+    form_fields.classList.add("change-password-fields");
+
+    full_name_label.classList.add("edit-profile-label");
+    full_name_label.htmlFor = "edit-profile-full-name";
+    full_name_label.textContent = "Full Name:";
+
+    full_name_input.classList.add("change-password-input");
+    full_name_input.id = "edit-profile-full-name";
+    full_name_input.name = "full_name";
+    full_name_input.type = "text";
+    full_name_input.placeholder = "Full name";
+    full_name_input.value = account_name.textContent;
+    full_name_input.required = true;
+
+    username_label.classList.add("edit-profile-label");
+    username_label.htmlFor = "edit-profile-username";
+    username_label.textContent = "Username:";
+
+    username_input.classList.add("change-password-input");
+    username_input.id = "edit-profile-username";
+    username_input.name = "username";
+    username_input.type = "text";
+    username_input.placeholder = "Username";
+    username_input.value = account_username.textContent;
+    username_input.required = true;
+
+    form_actions.classList.add("change-password-actions");
+
+    cancel_button.classList.add("change-password-cancel");
+    cancel_button.type = "button";
+    cancel_button.textContent = "Cancel";
+
+    submit_button.classList.add("change-password-submit");
+    submit_button.type = "submit";
+    submit_button.value = "Save Changes";
+
+    form_fields.append(full_name_label, full_name_input, username_label, username_input);
+    form_actions.append(cancel_button, submit_button);
+    form.append(form_title, form_fields, form_actions);
+    overlay.append(form);
+    document.body.append(overlay);
+    document.body.classList.add("change-password-modal-open");
+
+    full_name_input.focus();
+
+    form.addEventListener("submit", (event) => {
+        event.preventDefault();
+
+        const auth_token = localStorage.getItem("auth_token");
+
+        const request_data = new URLSearchParams();
+        request_data.append("auth_token", auth_token);
+        request_data.append("username", username_input.value);
+        request_data.append("full_name", full_name_input.value);
+
+        axios.post(BASE_URL + "users/update_user.php", request_data)
+            .then(res => {
+                if(!res.data.success){
+                    showMessage(res.data.message);
+                    return;
+                }
+
+                showMessage(res.data.message);
+                getCurrentUser();
+                overlay.remove();
+                document.body.classList.remove("change-password-modal-open");
+            })
+            .catch(err => {
+                showMessage(err);
+                console.error(err);
+            })
+    });
+
+    cancel_button.addEventListener("click", () => {
+        overlay.remove();
+        document.body.classList.remove("change-password-modal-open");
+    });
 })
 
 logout_btn.addEventListener("click", () => {

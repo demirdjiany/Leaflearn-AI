@@ -21,16 +21,20 @@ function getEpubPath(){
     request_data.append("folder_id", folder_id);
     request_data.append("epub_id", epub_id);
 
+    showPageLoading();
+
     axios.post(BASE_URL + "epubs/get_epub.php", request_data)
         .then(res => {
             if(!res.data.success){
-                alert(res.data.message);
+                hidePageLoading();
+                showMessage(res.data.message);
                 return;
             }
             renderEpub(res.data.data);
         })
         .catch(err => {
-            alert(err);
+            hidePageLoading();
+            showMessage(err);
             console.error(err);
         })
 
@@ -83,6 +87,12 @@ function renderEpub(data){
         else{
             return rendition.display();
         }
+    }).then(() => {
+        hidePageLoading();
+    }).catch(err => {
+        hidePageLoading();
+        showMessage("The EPUB could not be displayed.");
+        console.error(err);
     });
 }
 
@@ -146,13 +156,13 @@ function saveReadingProgress(){
     axios.post(BASE_URL + "epubs/save_reading_progress.php", request_data)
         .then(res => {
             if(!res.data.success){
-                alert(res.data.message);
+                showMessage(res.data.message);
                 return;
             }
 
         })
         .catch(err => {
-            alert(err);
+            showMessage(err);
             console.error(err);
         })
 }
@@ -219,7 +229,7 @@ ask_ai_btn.addEventListener("click", () => {
         const auth_token = localStorage.getItem("auth_token");
 
         if(!Number.isFinite(reading_progress)){
-            alert("Your reading position is still loading. Please try again in a moment.");
+            showMessage("Your reading position is still loading. Please try again in a moment.");
             return;
         }
 
@@ -240,7 +250,7 @@ ask_ai_btn.addEventListener("click", () => {
             .then(res => {
                 if(!res.data.success){
                     setAILoadingState(form, question_input, cancel_button, submit_button, false);
-                    alert(res.data.message);
+                    showMessage(res.data.message);
                     return;
                 }
 
@@ -250,7 +260,7 @@ ask_ai_btn.addEventListener("click", () => {
             })
             .catch(err => {
                 setAILoadingState(form, question_input, cancel_button, submit_button, false);
-                alert(err);
+                showMessage(err);
                 console.error(err);
             })
     });

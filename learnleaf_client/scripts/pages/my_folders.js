@@ -73,15 +73,15 @@ new_folder_button.addEventListener("click", () => {
         axios.post(BASE_URL + "folders/add_folder.php", request_data)
             .then(res => {
                 if (!res.data.success){
-                    alert(res.data.message);
+                    showMessage(res.data.message);
                     return;
                 }
 
-                alert(res.data.message);
+                showMessage(res.data.message);
                 getFolders();
             })
             .catch(err => {
-                alert(err);
+                showMessage(err);
                 console.error(err);
             });
     })
@@ -98,17 +98,21 @@ function getFolders(){
     const request_data = new URLSearchParams();
     request_data.append("auth_token", auth_token);
 
+    showPageLoading();
+
     axios.post(BASE_URL + "folders/get_folders.php", request_data)
         .then(res => {
+            hidePageLoading();
             if (!res.data.success){
-                alert(res.data.message);
+                showMessage(res.data.message);
                 return;
             }
             
             renderCards(res.data.data);
         })
         .catch(err => {
-            alert(err);
+            hidePageLoading();
+            showMessage(err);
             console.error(err);
         })
 }

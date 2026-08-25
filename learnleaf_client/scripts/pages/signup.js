@@ -23,12 +23,12 @@ form.addEventListener("submit", (event) => {
 
     axios.post(BASE_URL + "users/add_user.php", request_data)
         .then(res => {
-            alert(res.data.message);
+            showMessage(res.data.message);
             if (res.data.success){
                 window.location.href  = "login.html";
             }
         })
         .catch(err => {
-            alert("sign up has failed");
+            showMessage("Sign up has failed.");
             console.error(err)});
         })

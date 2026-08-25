@@ -82,7 +82,7 @@ add_book_button.addEventListener("click", () => {
         axios.post(BASE_URL + "epubs/add_epub.php", request_data)
             .then(res => {
                 if(!res.data.success){
-                    alert(res.data.message);
+                    showMessage(res.data.message);
                     return;
                 }
 
@@ -90,7 +90,7 @@ add_book_button.addEventListener("click", () => {
                 getEpubs();
             })
             .catch(err => {
-                alert(err);
+                showMessage(err);
                 console.error(err);
             })
 
@@ -108,10 +108,13 @@ function getEpubs(){
     request_data.append("auth_token", auth_token);
     request_data.append("folder_id", folder_id);
 
+    showPageLoading();
+
     axios.post(BASE_URL + "epubs/get_epubs.php", request_data)
         .then(res => {
+            hidePageLoading();
             if (!res.data.success){
-                alert(res.data.message);
+                showMessage(res.data.message);
                 return;
             }
             
@@ -120,7 +123,8 @@ function getEpubs(){
             findLastReadEpub(res.data.data);
         })
         .catch(err => {
-            alert(err);
+            hidePageLoading();
+            showMessage(err);
             console.error(err);
         });
 }
@@ -180,17 +184,21 @@ function getFolder(){
     request_data.append("auth_token", auth_token);
     request_data.append("id", folder_id);
 
+    showPageLoading();
+
     axios.post(BASE_URL + "folders/get_folder.php", request_data)
         .then(res => {
+            hidePageLoading();
             if(!res.data.success){
-                alert(res.data.message);
+                showMessage(res.data.message);
                 return;
             }
 
             renderFolderInformation(res.data.data)
         })
         .catch(err => {
-            alert(err);
+            hidePageLoading();
+            showMessage(err);
             console.error(err);
         })
 }

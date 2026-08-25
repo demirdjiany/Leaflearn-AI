@@ -1,0 +1,90 @@
+.site-message {
+    position: fixed;
+    top: 1.25rem;
+    left: 50%;
+    z-index: 100;
+    width: min(90vw, 38rem);
+    margin: 0;
+    padding: 0.85rem 1.25rem;
+    color: #2f2923;
+    background-color: #fffaf0;
+    border: 0.0625rem solid #d4c2a5;
+    border-left: 0.35rem solid #b18346;
+    border-radius: 0.4rem;
+    box-shadow: 0 0.5rem 1.25rem rgba(46, 30, 21, 0.2);
+    font-weight: 600;
+    text-align: center;
+    transform: translate(-50%, -150%);
+    animation: message-enter 250ms ease-out forwards;
+}
+
+.site-message.is-hiding {
+    animation: message-leave 250ms ease-in forwards;
+}
+
+.page-loading-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 90;
+    display: grid;
+    place-items: center;
+    background-color: rgba(243, 237, 225, 0.88);
+    transition: opacity 200ms ease;
+}
+
+.page-loading-overlay.is-hiding {
+    opacity: 0;
+}
+
+.page-loading-box {
+    display: grid;
+    justify-items: center;
+    gap: 0.75rem;
+    color: #39241a;
+    font-weight: 700;
+}
+
+.page-loading-box p {
+    margin: 0;
+}
+
+.page-loading-spinner {
+    width: 2.75rem;
+    aspect-ratio: 1;
+    border: 0.3rem solid #d4c2a5;
+    border-top-color: #697957;
+    border-radius: 50%;
+    animation: page-loading-spin 750ms linear infinite;
+}
+
+@keyframes message-enter {
+    to {
+        transform: translate(-50%, 0);
+    }
+}
+
+@keyframes message-leave {
+    to {
+        opacity: 0;
+        transform: translate(-50%, -150%);
+    }
+}
+
+@keyframes page-loading-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .site-message,
+    .site-message.is-hiding,
+    .page-loading-spinner {
+        animation: none;
+    }
+
+    .site-message,
+    .site-message.is-hiding {
+        transform: translateX(-50%);
+    }
+}

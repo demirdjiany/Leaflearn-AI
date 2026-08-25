@@ -13,15 +13,15 @@ form.addEventListener("submit", (event) => {
     axios.post(BASE_URL + "users/login_user.php", request_data)
         .then(res => {
             if (!res.data.success){
-                alert(res.data.message);
+                showMessage(res.data.message);
                 return;
             }
-            alert(res.data.message);
+            showMessage(res.data.message);
             localStorage.setItem("auth_token", res.data.auth_token);
             window.location.href = "../library/my_folders.html";
         })
         .catch(err => {
-            alert("failed to login")
+            showMessage("Failed to log in.")
             console.error(err)}
         );
 })

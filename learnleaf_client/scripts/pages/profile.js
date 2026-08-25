@@ -95,16 +95,16 @@ change_password_btn.addEventListener("click", () => {
         axios.post(BASE_URL + "users/update_user_password.php", request_data)
             .then(res => {
                 if(!res.data.success){
-                    alert(res.data.message);
+                    showMessage(res.data.message);
                     return;
                 }
 
-                alert(res.data.message);
+                showMessage(res.data.message);
                 overlay.remove();
                 document.body.classList.remove("change-password-modal-open");
             })
             .catch(err => {
-                alert(err);
+                showMessage(err);
                 console.error(err);
             })
     });
@@ -128,11 +128,14 @@ function getCurrentUser(){
         return;
     }
 
+    showPageLoading();
+
     axios.post(BASE_URL + "users/get_current_user.php", request_data)
         .then(res => {
+            hidePageLoading();
             if (!res.data.success){
                 localStorage.removeItem("auth_token");
-                alert(res.data.message);
+                showMessage(res.data.message);
                 window.location.href = "login.html";
                 return;
             }
@@ -140,7 +143,8 @@ function getCurrentUser(){
             renderAccountInformation(res.data.data.full_name, res.data.data.username, res.data.data.email);
         })
         .catch(err => {
-            alert("error");
+            hidePageLoading();
+            showMessage("Error");
             console.error(err);
         });
 }
@@ -158,16 +162,16 @@ logout_btn.addEventListener("click", () => {
     axios.post(BASE_URL + "users/logout_user.php", request_data)
         .then(res => {
             if (!res.data.success){
-                alert(res.data.message);
+                showMessage(res.data.message);
                 return;
             }
 
             localStorage.removeItem("auth_token");
             window.location.href = "login.html";
-            alert(res.data.message);
+            showMessage(res.data.message);
         })
         .catch(err => {
-            alert("error");
+            showMessage("Error");
             console.error(err);
         });
 })
@@ -192,10 +196,13 @@ function getFolders(){
     const request_data = new URLSearchParams();
     request_data.append("auth_token", auth_token);
 
+    showPageLoading();
+
     axios.post(BASE_URL + "folders/get_folders.php", request_data)
         .then(res => {
+            hidePageLoading();
             if (!res.data.success){
-                alert(res.data.message);
+                showMessage(res.data.message);
                 return;
             }
             
@@ -203,7 +210,8 @@ function getFolders(){
             countFolders(res.data.data);
         })
         .catch(err => {
-            alert(err);
+            hidePageLoading();
+            showMessage(err);
             console.error(err);
         })
 }
@@ -216,10 +224,13 @@ function getEpubs(folders_data){
         request_data.append("auth_token", auth_token);
         request_data.append("folder_id", folder_data.id);
 
+        showPageLoading();
+
         axios.post(BASE_URL + "epubs/get_epubs.php", request_data)
             .then(res => {
+                hidePageLoading();
                 if (!res.data.success){
-                    alert(res.data.message);
+                    showMessage(res.data.message);
                     return;
                 }
 
@@ -228,7 +239,8 @@ function getEpubs(folders_data){
                 findLastBookRead(res.data.data);
             })
             .catch(err => {
-                alert(err);
+                hidePageLoading();
+                showMessage(err);
                 console.error(err);
             })
     })
@@ -319,10 +331,13 @@ function findLastBookFolder(last_book){
     request_data.append("auth_token", auth_token);
     request_data.append("id", last_book.folder_id);
 
+    showPageLoading();
+
     axios.post(BASE_URL + "folders/get_folder.php", request_data)
         .then(res => {
+            hidePageLoading();
             if(!res.data.success){
-                alert(res.data.message);
+                showMessage(res.data.message);
                 return;
             }
 
@@ -330,7 +345,8 @@ function findLastBookFolder(last_book){
             continueReadingLinkUpdate(last_book, res.data.data)
         })
         .catch(err => {
-            alert(err);
+            hidePageLoading();
+            showMessage(err);
             console.error(err);
         })
 }

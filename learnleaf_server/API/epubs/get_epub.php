@@ -45,7 +45,7 @@
         return;
     }
 
-    $sql = "SELECT * FROM books WHERE id = ? AND folder_id = ?";
+    $sql = "SELECT books.*, COALESCE(ai_book_summaries.summary_progress_percentage, 0) AS summary_progress_percentage FROM books LEFT JOIN ai_book_summaries ON books.id = ai_book_summaries.book_id WHERE books.id = ? AND books.folder_id = ?";
     $query = $mysql->prepare($sql);
     $query->bind_param("ii", $epub_id, $folder_id);
     $query->execute();

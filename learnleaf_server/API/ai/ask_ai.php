@@ -22,6 +22,7 @@
     $folder_id = -1;
     $epub_id = -1;
     $book_context = "";
+    $reading_progress = -1;
 
     if (isset($_POST["folder_id"])){
         $folder_id = intval($_POST["folder_id"]);
@@ -32,9 +33,12 @@
     if (isset($_POST["book_context"])){
         $book_context = trim($_POST["book_context"]);
     }
+    if(isset($_POST["reading_progress"])){
+        $reading_progress = (float) $_POST["reading_progress"];
+    }
 
-    if ($folder_id == -1 OR $epub_id == -1 OR $book_context == ""){
-        echo json_encode(["success"=> false,"message"=> "please make sure to have an epub open with progression"]);
+    if($folder_id == -1 OR $epub_id == -1 OR $reading_progress < 0 OR $reading_progress > 100){
+        echo json_encode(["success"=> false,"message"=> "Please make sure to have an EPUB open with progression"]);
         return;
     }
 
@@ -73,6 +77,29 @@
         return;
     }
 
+    // getting the AI already saved summary
+    $book_summary = "";
+    $summary_progress_percentage = 0;
+
+    $sql = "SELECT summary, summary_progress_percentage FROM ai_book_summaries WHERE book_id = ?";
+
+    $query = $mysql->prepare($sql);
+    $query->bind_param("i", $epub_id);
+    $query->execute();
+
+    $result = $query->get_result();
+    $summary_data = $result->fetch_assoc();
+
+    if($summary_data){
+        $book_summary = $summary_data["summary"];
+        $summary_progress_percentage = $summary_data["summary_progress_percentage"];
+    }
+
+    if($book_context == "" AND $book_summary == ""){
+        echo json_encode(["success" => false, "message" => "No readable book context is available yet"]);
+        return;
+    }
+
     // validating the question to be sent
     $question = "";
 
@@ -95,8 +122,16 @@
             Answer only using the book context below. 
             If the answer is not in the context, say that the reader has not reached that information yet.
             
-            Book context: $book_context;
-            Reader question: $question";
+            Saved summary, covering up to $summary_progress_percentage%: $book_summary;
+            New book content the reader reached after the summary: $book_context;
+            Reader question: $question;
+            Return a JSON object with exactly these two properties:
+            - answer: the answer to the reader's question
+            - summary: a concise factual summary of everything in the saved summary and new book context
+
+            The summary must not include information outside the provided context. Keep it under 1,500 characters.";
+
+            
 
     // request to the AI
     $request_data = [
@@ -112,6 +147,26 @@
             "temperature" => 0.3,
             "thinkingConfig" => [
                 "thinkingLevel" => "low"
+            ],
+            "responseFormat" => [
+                "text" => [
+                    "mimeType" => "APPLICATION_JSON",
+                    "schema" => [
+                        "type" => "object",
+                        "properties" => [
+                            "answer" => [
+                                "type" => "string"
+                            ],
+                            "summary" => [
+                                "type" => "string"
+                            ]
+                        ],
+                        "required" => [
+                            "answer",
+                            "summary"
+                        ]
+                    ]
+                ]
             ]
         ]
     ];
@@ -148,7 +203,34 @@
         return;
     }
 
-    $answer = $response_data["candidates"]["0"]["content"]["parts"][0]["text"];
+    $gemini_text = $response_data["candidates"]["0"]["content"]["parts"][0]["text"];
+    
+    $gemini_data = json_decode($gemini_text, true);
+
+    if(!$gemini_data OR !isset($gemini_data["answer"]) OR !isset($gemini_data["summary"])){
+        echo json_encode(["success"=> false,"message"=> "Gemini did not return a valid answer or summary"]);
+        return;
+    }
+
+    $answer = $gemini_data["answer"];
+    $updated_summary = $gemini_data["summary"];
+
+    // Saving the AI summary
+    $summary_limit = 1500;
+
+    if(mb_strlen($updated_summary) > $summary_limit){
+        $updated_summary = mb_substr($updated_summary, 0, $summary_limit);
+    }
+
+    $sql = "INSERT INTO ai_book_summaries (book_id, summary, summary_progress_percentage) VALUES (?, ?, ?) 
+    ON DUPLICATE KEY UPDATE summary = VALUES(summary), summary_progress_percentage = VALUES(summary_progress_percentage), updated_at = NOW()";
+    $query = $mysql->prepare($sql);
+    $query->bind_param("isd", $epub_id, $updated_summary, $reading_progress);
+
+    if(!$query->execute()){
+        echo json_encode(["success" => false, "message" => "Failed to save the AI summary"]);
+        return;
+    }
 
     echo json_encode(["success"=> true,"answer"=> $answer]);
 ?>

@@ -11,6 +11,7 @@ let reading_progress;
 let current_location;
 let save_timeout;
 let book;
+let summary_progress_percentage = 0;
 
 function getEpubPath(){
     const auth_token = localStorage.getItem("auth_token");
@@ -36,10 +37,11 @@ function getEpubPath(){
 }
 
 function renderEpub(data){
+    summary_progress_percentage = Number(data.summary_progress_percentage);
     const saved_location = data.epub_current_location;
     const path = `../../../learnleaf_server/${data.epub_file_path}`;
     const title = data.title;
-    
+
     book_title.textContent = title;
 
     book = ePub(path);
@@ -112,16 +114,20 @@ function getBookContext(){
                 full_book_text.length * (reading_progress/100)
             );
 
-            const read_text = full_book_text.slice(0, characters_read);
+            const summary_characters = Math.floor(
+                full_book_text.length * (summary_progress_percentage/100)
+            );
+
+            const new_text = full_book_text.slice(summary_characters, characters_read);
 
             const context_limit = 30000;
 
-            if(read_text.length <= context_limit){
-                return read_text;
+            if(new_text.length <= context_limit){
+                return new_text;
             }
 
-            const beginning_text = read_text.slice(0, 10000);
-            const recent_text = read_text.slice(-20000);
+            const beginning_text = new_text.slice(0, 10000);
+            const recent_text = new_text.slice(-20000);
 
             return `${beginning_text}\n\n[Later text the reader has reached]\n\n${recent_text}`;
         });
@@ -160,6 +166,9 @@ ask_ai_btn.addEventListener("click", () => {
     const form = document.createElement("form");
     const form_title = document.createElement("h2");
     const form_description = document.createElement("p");
+    const loading_state = document.createElement("div");
+    const loading_spinner = document.createElement("span");
+    const loading_text = document.createElement("span");
     const question_input = document.createElement("textarea");
     const form_actions = document.createElement("div");
     const cancel_button = document.createElement("button");
@@ -171,6 +180,12 @@ ask_ai_btn.addEventListener("click", () => {
     form_title.textContent = "Ask LearnLeaf AI";
     form_description.textContent = "Ask a question about what you have read so far.";
     form_description.classList.add("ask-ai-description");
+
+    loading_state.classList.add("ask-ai-loading-state");
+    loading_spinner.classList.add("ask-ai-spinner");
+    loading_text.textContent = "LearnLeaf AI is thinking...";
+
+    loading_state.append(loading_spinner, loading_text);
 
     question_input.classList.add("ask-ai-input");
     question_input.id = "ai-question";
@@ -191,7 +206,7 @@ ask_ai_btn.addEventListener("click", () => {
     submit_button.value = "Ask AI";
 
     form_actions.append(cancel_button, submit_button);
-    form.append(form_title, form_description, question_input, form_actions);
+    form.append(form_title, form_description, loading_state, question_input, form_actions);
     overlay.append(form);
     document.body.append(overlay);
     document.body.classList.add("ask-ai-modal-open");
@@ -208,6 +223,8 @@ ask_ai_btn.addEventListener("click", () => {
             return;
         }
 
+        setAILoadingState(form, question_input, cancel_button, submit_button, true);
+
         getBookContext()
             .then((book_context) => {
                 const request_data = new URLSearchParams();
@@ -216,19 +233,23 @@ ask_ai_btn.addEventListener("click", () => {
                 request_data.append("folder_id", folder_id);
                 request_data.append("epub_id", epub_id);
                 request_data.append("book_context", book_context);
+                request_data.append("reading_progress", reading_progress);
 
                 return axios.post(BASE_URL + "ai/ask_ai.php", request_data);
             })
             .then(res => {
                 if(!res.data.success){
+                    setAILoadingState(form, question_input, cancel_button, submit_button, false);
                     alert(res.data.message);
                     return;
                 }
 
+                summary_progress_percentage = reading_progress;
                 overlay.remove();
                 renderAIResponse(res.data.answer);
             })
             .catch(err => {
+                setAILoadingState(form, question_input, cancel_button, submit_button, false);
                 alert(err);
                 console.error(err);
             })
@@ -239,6 +260,23 @@ ask_ai_btn.addEventListener("click", () => {
         document.body.classList.remove("ask-ai-modal-open");
     });
 })
+
+function setAILoadingState(form, question_input, cancel_button, submit_button, is_loading){
+    if(is_loading){
+        form.classList.add("is-loading");
+        question_input.readOnly = true;
+        cancel_button.disabled = true;
+        submit_button.disabled = true;
+        submit_button.value = "Thinking...";
+    }
+    else{
+        form.classList.remove("is-loading");
+        question_input.readOnly = false;
+        cancel_button.disabled = false;
+        submit_button.disabled = false;
+        submit_button.value = "Ask AI";
+    }
+}
 
 function renderAIResponse(answer){
     const overlay = document.createElement("div");

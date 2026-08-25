@@ -23,6 +23,16 @@ function updateStepProgress() {
             checkbox.checked = false;
             card.classList.remove("is-complete");
         }
+
+        const step_progress = [];
+
+        stepCards.forEach((step_card) => {
+            const step_checkbox = step_card.querySelector(".step_checkbox");
+
+            step_progress.push(step_progress.checked);
+        });
+
+        localStorage.setItem("how_it_works_progress", JSON.stringify(step_progress));
     });
 }
 
@@ -40,4 +50,21 @@ step_cards.forEach((card, index) => {
     });
 });
 
+function loadStepProgress(){
+    const saved_step_progress = localStorage.getItem("how_it_works_progress");
+
+    if(!saved_step_progress){
+        return;
+    }
+
+    const step_progress = JSON.parse(saved_step_progress);
+
+    stepCards.forEach((step_card, index) => {
+        const step_checkbox = step_card.querySelector(".step-checkbox");
+
+        step_checkbox.checked = step_progress[index];
+    })
+}
+
+loadStepProgress();
 updateStepProgress();

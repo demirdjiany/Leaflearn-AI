@@ -23,15 +23,7 @@
     overflow-y: auto;
     color: #f7f0e3;
     background-color: #3b3329;
-    background-image:
-        linear-gradient(rgba(23, 34, 28, 0.18), rgba(23, 34, 28, 0.18)),
-        repeating-linear-gradient(
-            92deg,
-            rgba(255, 255, 255, 0.025) 0,
-            rgba(255, 255, 255, 0.025) 0.15rem,
-            transparent 0.2rem,
-            transparent 1.2rem
-        );
+    background-image: linear-gradient(rgba(23, 34, 28, 0.18), rgba(23, 34, 28, 0.18));
     border-right: 0.3rem solid var(--color-brass);
     box-shadow: 0.5rem 0 1.5rem rgba(39, 28, 21, 0.16);
 }

@@ -62,16 +62,7 @@ header {
     position: sticky;
     top: 0;
     z-index: 10;
-    background-color: var(--color-primary);
-    background-image:
-        repeating-linear-gradient(
-            96deg,
-            rgba(255, 255, 255, 0.025) 0,
-            rgba(255, 255, 255, 0.025) 0.25rem,
-            rgba(33, 19, 13, 0.04) 0.3rem,
-            rgba(33, 19, 13, 0.04) 1.7rem
-        ),
-        linear-gradient(90deg, var(--color-primary-dark), var(--color-primary), var(--color-primary-dark));
+    background-color: #3b3329;
     box-shadow: 0 0.2rem 0.75rem rgba(46, 30, 21, 0.25);
 }
 
@@ -123,7 +114,8 @@ header {
 
 .nav-menu a:hover,
 .nav-menu a:focus-visible {
-    background-color: var(--color-primary-dark);
+    color: var(--color-text-light);
+    background-color: var(--color-accent-dark);
 }
 
 .nav-menu a:focus-visible {
@@ -176,15 +168,7 @@ footer {
     margin-top: auto;
     padding: 1rem max(1rem, calc((100% - 75rem) / 2));
     color: var(--color-text-light);
-    background-color: var(--color-primary-dark);
-    background-image:
-        repeating-linear-gradient(
-            94deg,
-            rgba(255, 255, 255, 0.018) 0,
-            rgba(255, 255, 255, 0.018) 0.2rem,
-            transparent 0.25rem,
-            transparent 1.4rem
-        );
+    background-color: #3b3329;
     border-top: 0.2rem solid var(--color-brass);
 }
 

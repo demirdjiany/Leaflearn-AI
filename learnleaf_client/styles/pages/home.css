@@ -1,40 +1,53 @@
-main {
-    width: 100%;
+/* Match the warm paper atmosphere used on the My Folders page. */
+body {
+    background-color: #e9dfcb;
+    background-image:
+        radial-gradient(circle at 12% 20%, rgba(255, 250, 240, 0.9), transparent 18rem),
+        radial-gradient(circle at 88% 72%, rgba(177, 131, 70, 0.16), transparent 22rem);
+}
+
+body::before,
+body::after {
+    position: fixed;
+    z-index: 0;
+    color: rgba(93, 59, 42, 0.1);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(8rem, 18vw, 15rem);
+    line-height: 1;
+    pointer-events: none;
+}
+
+body::before {
+    top: 9rem;
+    right: 4vw;
+    content: "✦";
+    transform: rotate(8deg);
+}
+
+body::after {
+    bottom: 3rem;
+    left: 3vw;
+    content: "❧";
+    transform: rotate(-18deg);
+}
+
+main,
+footer {
+    position: relative;
+    z-index: 1;
 }
 
 .title-block {
     display: flex;
-    position: relative;
-    width: 100%;
     min-height: clamp(18rem, 48vh, 30rem);
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    margin-top: -4rem;
-    padding-inline: 1rem;
-    color: var(--color-text-light);
-    background-color: #090807;
-    isolation: isolate;
     text-align: center;
-}
-
-.title-block::after {
-    position: absolute;
-    z-index: -1;
-    top: calc(100% - 0.1rem);
-    left: 0;
-    width: 100%;
-    height: clamp(4.5rem, 8vw, 7rem);
-    content: "";
-    background-image: url("../../assets/images/title_drips.svg");
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
-    pointer-events: none;
 }
 
 .main-title h1 {
     margin: 0;
-    color: var(--color-text-light);
     font-size: clamp(3.25rem, 9vw, 6.5rem);
     line-height: 1;
     letter-spacing: -0.04em;
@@ -43,35 +56,27 @@ main {
 
 .subtitle h2 {
     margin: 1.5rem 0 0;
-    color: var(--color-text-light);
+    color: var(--color-text-muted);
     font-family: "Segoe UI", Arial, Helvetica, sans-serif;
     font-size: clamp(0.95rem, 2vw, 1.2rem);
     font-weight: 450;
     font-style: italic;
     letter-spacing: 0.08em;
-    opacity: 0.78;
+    opacity: 0.72;
 }
 
 .welcome-block,
 .policy-intro-block,
 .get-started-block {
     display: grid;
-    position: relative;
-    z-index: 1;
-    width: min(100% - 2rem, 68rem);
     grid-template-columns: minmax(14rem, 0.7fr) minmax(0, 1.3fr);
     overflow: hidden;
-    margin-inline: auto;
     margin-bottom: 2rem;
     background-color: var(--color-surface);
     border: 1px solid var(--color-border);
     border-left: 0.4rem solid var(--color-accent);
     border-radius: 0.75rem;
     box-shadow: var(--shadow-card);
-}
-
-.welcome-block {
-    margin-top: clamp(4rem, 7vw, 6rem);
 }
 
 .policy-intro-block {
@@ -156,10 +161,6 @@ main {
 }
 
 @media (max-width: 40rem) {
-    .title-block {
-        margin-top: -2rem;
-    }
-
     .welcome-block,
     .policy-intro-block,
     .get-started-block {

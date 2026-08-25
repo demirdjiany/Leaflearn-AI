@@ -3,14 +3,7 @@ body {
     background-color: #e9dfcb;
     background-image:
         radial-gradient(circle at 12% 20%, rgba(255, 250, 240, 0.9), transparent 18rem),
-        radial-gradient(circle at 88% 72%, rgba(177, 131, 70, 0.16), transparent 22rem),
-        repeating-linear-gradient(
-            45deg,
-            rgba(93, 59, 42, 0.025) 0,
-            rgba(93, 59, 42, 0.025) 0.0625rem,
-            transparent 0.0625rem,
-            transparent 1.1rem
-        );
+        radial-gradient(circle at 88% 72%, rgba(177, 131, 70, 0.16), transparent 22rem);
 }
 
 /* These ornaments sit behind the page content like marks on old book paper. */

@@ -59,6 +59,20 @@
         return;
     }
 
+    // checking if the folder belongs to the user
+    $sql = "SELECT id FROM folders WHERE id = ? AND user_id = ?";
+    $query = $mysql->prepare($sql);
+    $query->bind_param("ii", $folder_id, $user_id);
+    $query->execute();
+
+    $result = $query->get_result();
+    $data = $result->fetch_assoc();
+
+    if(!$data){
+        echo json_encode(["success"=> false,"message"=> "this folder does not belong to the user"]);
+        return;
+    }
+
     // validating the question to be sent
     $question = "";
 

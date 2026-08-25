@@ -1,4 +1,6 @@
 const step_cards = Array.from(document.querySelectorAll(".content-card"));
+const auth_token = localStorage.getItem("auth_token");
+const progress_storage_key = `how_it_works_progress_${auth_token}`;
 
 function updateStepProgress() {
     step_cards.forEach((card, index) => {
@@ -24,16 +26,17 @@ function updateStepProgress() {
             card.classList.remove("is-complete");
         }
 
-        const step_progress = [];
-
-        stepCards.forEach((step_card) => {
-            const step_checkbox = step_card.querySelector(".step_checkbox");
-
-            step_progress.push(step_progress.checked);
-        });
-
-        localStorage.setItem("how_it_works_progress", JSON.stringify(step_progress));
     });
+
+    const step_progress = [];
+
+    step_cards.forEach((step_card) => {
+        const step_checkbox = step_card.querySelector(".step-checkbox");
+
+        step_progress.push(step_checkbox.checked);
+    });
+
+    localStorage.setItem(progress_storage_key, JSON.stringify(step_progress));
 }
 
 step_cards.forEach((card, index) => {
@@ -51,7 +54,7 @@ step_cards.forEach((card, index) => {
 });
 
 function loadStepProgress(){
-    const saved_step_progress = localStorage.getItem("how_it_works_progress");
+    const saved_step_progress = localStorage.getItem(progress_storage_key);
 
     if(!saved_step_progress){
         return;
@@ -59,11 +62,13 @@ function loadStepProgress(){
 
     const step_progress = JSON.parse(saved_step_progress);
 
-    stepCards.forEach((step_card, index) => {
+    step_cards.forEach((step_card, index) => {
         const step_checkbox = step_card.querySelector(".step-checkbox");
 
-        step_checkbox.checked = step_progress[index];
-    })
+        if(index < step_progress.length){
+            step_checkbox.checked = step_progress[index];
+        }
+    });
 }
 
 loadStepProgress();

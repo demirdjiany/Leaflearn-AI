@@ -172,7 +172,7 @@
     ];
 
     // setting up the client url
-    $curl = curl_init("https://generativelanguage.googleapis.com/v1beta/models/gemini-3.7-flash:generateContent");
+    $curl = curl_init("https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent");
 
     curl_setopt($curl, CURLOPT_POST, true);
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);

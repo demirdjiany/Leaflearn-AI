@@ -140,6 +140,7 @@ function renderBookCards(epubs_data){
         const book_card = document.createElement("article");
         const card_title = document.createElement("div");
         const book_title = document.createElement("h3");
+        const delete_button = document.createElement("button");
         const card_information = document.createElement("div");
         const file_label = document.createElement("p");
         const original_filename = document.createElement("p");
@@ -151,6 +152,7 @@ function renderBookCards(epubs_data){
 
         book_card.classList.add("card-background");
         card_title.classList.add("card-title");
+        delete_button.classList.add("delete-book-button");
         card_information.classList.add("card-information");
         file_label.classList.add("book-author");
         original_filename.classList.add("book-description");
@@ -162,6 +164,10 @@ function renderBookCards(epubs_data){
         reading_progress.value = progress_percentage;
 
         book_title.textContent = epub_data.title;
+        delete_button.type = "button";
+        delete_button.textContent = "×";
+        delete_button.title = `Delete ${epub_data.title}`;
+        delete_button.setAttribute("aria-label", `Delete ${epub_data.title}`);
         file_label.textContent = "EPUB file";
         original_filename.textContent = epub_data.original_filename;
         progress_label.textContent = `Reading progress: ${progress_percentage}%`;
@@ -169,11 +175,86 @@ function renderBookCards(epubs_data){
         link_to_book.textContent = "Open Book";
         link_to_book.href = `book.html?folder_id=${encodeURIComponent(folder_id)}&epub_id=${encodeURIComponent(epub_data.id)}`;
 
-        card_title.append(book_title);
+        delete_button.addEventListener("click", () => {
+            openBookDeletionConfirmation(epub_data);
+        });
+
+        card_title.append(book_title, delete_button);
         progress_information.append(progress_label, reading_progress);
         card_information.append(file_label, original_filename, progress_information, link_to_book);
         book_card.append(card_title, card_information);
         book_grid.append(book_card);
+    });
+}
+
+function openBookDeletionConfirmation(epub_data){
+    if (document.querySelector(".book-delete-overlay")) {
+        return;
+    }
+
+    const delete_overlay = document.createElement("div");
+    const delete_dialog = document.createElement("section");
+    const dialog_title = document.createElement("h2");
+    const warning_message = document.createElement("p");
+    const dialog_actions = document.createElement("div");
+    const cancel_button = document.createElement("button");
+    const confirm_button = document.createElement("button");
+    const dialog_title_id = `delete-book-title-${epub_data.id}`;
+
+    delete_overlay.classList.add("book-delete-overlay");
+    delete_dialog.classList.add("book-delete-dialog");
+    dialog_actions.classList.add("book-delete-actions");
+    cancel_button.classList.add("book-delete-cancel");
+    confirm_button.classList.add("book-delete-confirm");
+
+    delete_dialog.setAttribute("role", "alertdialog");
+    delete_dialog.setAttribute("aria-modal", "true");
+    delete_dialog.setAttribute("aria-labelledby", dialog_title_id);
+
+    dialog_title.id = dialog_title_id;
+    dialog_title.textContent = "Delete this book?";
+    warning_message.textContent = `Are you sure you want to delete “${epub_data.title}”? The EPUB file and its reading progress will be permanently removed.`;
+
+    cancel_button.type = "button";
+    cancel_button.textContent = "Cancel";
+    confirm_button.type = "button";
+    confirm_button.textContent = "Delete Book";
+
+    dialog_actions.append(cancel_button, confirm_button);
+    delete_dialog.append(dialog_title, warning_message, dialog_actions);
+    delete_overlay.append(delete_dialog);
+    document.body.append(delete_overlay);
+
+    cancel_button.focus();
+
+    cancel_button.addEventListener("click", () => {
+        delete_overlay.remove();
+    });
+
+    confirm_button.addEventListener("click", () => {
+        const auth_token = localStorage.getItem("auth_token");
+
+        const request_data = new URLSearchParams();
+        request_data.append("auth_token", auth_token);
+        request_data.append("folder_id", folder_id);
+        request_data.append("epub_id", epub_data.id);
+
+        axios.post(BASE_URL + "epubs/delete_epub.php", request_data)
+            .then(res => {
+                if(!res.data.success){
+                    delete_overlay.remove();
+                    showMessage(res.data.message);
+                    return;
+                }
+
+                delete_overlay.remove();
+                showMessage(res.data.message);
+                getEpubs();
+            })
+            .catch(err => {
+                showMessage(err);
+                console.error(err);
+            })
     });
 }
 
@@ -227,6 +308,8 @@ function calculateTotalProgress(epubs_data){
     })
 
     if (epub_num == 0){
+        total_progress = 0;
+        renderFolderProgress();
         return;
     }
 
@@ -243,6 +326,7 @@ function renderFolderProgress(){
 }
 
 function findLastReadEpub(epubs_data){
+    last_read = null;
 
     epubs_data.forEach((epub_data) => {
         if(!epub_data.last_read_at){

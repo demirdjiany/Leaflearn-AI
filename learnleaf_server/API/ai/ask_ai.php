@@ -49,7 +49,7 @@
         $book_context = mb_substr($book_context, 0, $context_limit);
     }
 
-    // checking if the epub belongs to the folder and in proxy the user
+    // checking if the epub belongs to the folder
     $sql = "SELECT * FROM books WHERE id = ? AND folder_id = ?";
     $query = $mysql->prepare($sql);
     $query->bind_param("ii", $epub_id, $folder_id);

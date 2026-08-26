@@ -229,9 +229,7 @@
 }
 
 .card-title {
-    position: relative;
     padding: 1.25rem 1.4rem;
-    padding-right: 4rem;
     background-color: rgba(234, 223, 201, 0.7);
     border-bottom: 0.15rem solid var(--color-brass);
 }
@@ -242,23 +240,15 @@
 }
 
 .delete-book-button {
-    position: absolute;
-    top: 0.75rem;
-    right: 0.75rem;
-    display: grid;
-    width: 2.15rem;
-    height: 2.15rem;
-    padding: 0;
-    place-items: center;
+    min-height: 2.75rem;
+    padding: 0.55rem 0.85rem;
     color: #ffffff;
     background-color: #b23a32;
     border: 0.0625rem solid #842821;
-    border-radius: 50%;
+    border-radius: 0.4rem;
     box-shadow: 0 0.2rem 0.45rem rgba(91, 26, 22, 0.24);
     font: inherit;
-    font-size: 1.55rem;
     font-weight: 700;
-    line-height: 1;
     cursor: pointer;
     transition: background-color 150ms ease, transform 150ms ease, box-shadow 150ms ease;
 }
@@ -267,7 +257,14 @@
 .delete-book-button:focus-visible {
     background-color: #842821;
     box-shadow: 0 0.3rem 0.6rem rgba(91, 26, 22, 0.3);
-    transform: scale(1.05);
+    transform: translateY(-0.08rem);
+}
+
+.book-card-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
 }
 
 .card-information {
@@ -609,6 +606,18 @@
 
     .book-form-actions {
         flex-direction: column-reverse;
+    }
+
+    .book-card-actions {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .book-card-actions a,
+    .book-card-actions .delete-book-button {
+        width: 100%;
+        justify-content: center;
+        text-align: center;
     }
 
     .book-delete-actions {

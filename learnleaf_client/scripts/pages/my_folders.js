@@ -130,12 +130,16 @@ function renderCards(data){
         const folder_title = document.createElement("h2");
         const folder_description = document.createElement("p");
         const book_contained = document.createElement("span");
+        const folder_actions = document.createElement("div");
         const link_to_folder = document.createElement("a");
+        const delete_button = document.createElement("button");
 
         folder.classList.add("folder-card");
         folder_title.classList.add("folder-title");
         folder_description.classList.add("folder-description");
         book_contained.classList.add("books-contained");
+        folder_actions.classList.add("folder-card-actions");
+        delete_button.classList.add("delete-folder-button");
 
         folder_title.textContent = folder_data.name;
 
@@ -161,10 +165,89 @@ function renderCards(data){
 
         link_to_folder.textContent = "Open Folder";
         link_to_folder.href = `folder.html?folder_id=${encodeURIComponent(folder_data.id)}`;
+        delete_button.type = "button";
+        delete_button.textContent = "Delete Folder";
+        delete_button.title = `Delete ${folder_data.name}`;
+        delete_button.setAttribute("aria-label", `Delete ${folder_data.name}`);
 
-        folder.append(folder_title, folder_description, book_contained, link_to_folder);
+        delete_button.addEventListener("click", () => {
+            openFolderDeletionConfirmation(folder_data);
+        });
+
+        folder_actions.append(link_to_folder, delete_button);
+        folder.append(folder_title, folder_description, book_contained, folder_actions);
         card_section.insertBefore(folder, new_folder_card);
     });
+}
+
+function openFolderDeletionConfirmation(folder_data){
+    if (document.querySelector(".folder-delete-overlay")) {
+        return;
+    }
+
+    const delete_overlay = document.createElement("div");
+    const delete_dialog = document.createElement("section");
+    const dialog_title = document.createElement("h2");
+    const warning_message = document.createElement("p");
+    const dialog_actions = document.createElement("div");
+    const cancel_button = document.createElement("button");
+    const confirm_button = document.createElement("button");
+    const dialog_title_id = `delete-folder-title-${folder_data.id}`;
+
+    delete_overlay.classList.add("folder-delete-overlay");
+    delete_dialog.classList.add("folder-delete-dialog");
+    dialog_actions.classList.add("folder-delete-actions");
+    cancel_button.classList.add("folder-delete-cancel");
+    confirm_button.classList.add("folder-delete-confirm");
+
+    delete_dialog.setAttribute("role", "alertdialog");
+    delete_dialog.setAttribute("aria-modal", "true");
+    delete_dialog.setAttribute("aria-labelledby", dialog_title_id);
+
+    dialog_title.id = dialog_title_id;
+    dialog_title.textContent = "Delete this folder?";
+    warning_message.textContent = `Are you sure you want to delete “${folder_data.name}”? The folder and every book inside it will be permanently removed.`;
+
+    cancel_button.type = "button";
+    cancel_button.textContent = "Cancel";
+    confirm_button.type = "button";
+    confirm_button.textContent = "Delete Folder";
+
+    dialog_actions.append(cancel_button, confirm_button);
+    delete_dialog.append(dialog_title, warning_message, dialog_actions);
+    delete_overlay.append(delete_dialog);
+    document.body.append(delete_overlay);
+
+    cancel_button.focus();
+
+    cancel_button.addEventListener("click", () => {
+        delete_overlay.remove();
+    })
+
+    confirm_button.addEventListener("click", () => {
+        const auth_token = localStorage.getItem("auth_token");
+
+        const request_data = new URLSearchParams();
+        request_data.append("auth_token", auth_token);
+        request_data.append("folder_id", folder_data.id);
+
+        axios.post(BASE_URL + "folders/delete_folder.php", request_data)
+            .then(res => {
+                if(!res.data.success){
+                    delete_overlay.remove();
+                    showMessage(res.data.message);
+                    return;
+                }
+
+                delete_overlay.remove();
+                showMessage(res.data.message);
+                getFolders();
+            })
+            .catch(err => {
+                showMessage(err);
+                console.error(err);
+            })
+    })
 }
 
 getFolders();

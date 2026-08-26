@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../styles/common/base.css?v=20260826-5">
     <link rel="stylesheet" href="../../styles/common/message.css">
-    <link rel="stylesheet" href="../../styles/pages/my_folders.css">
+    <link rel="stylesheet" href="../../styles/pages/my_folders.css?v=20260826-2">
     <title>My Folders | LearnLeaf</title>
 </head>
 <body>
@@ -51,7 +51,10 @@
                             Books and notes about HTML, CSS, JavaScript, PHP, and MySQL.
                         </p>
                         <span class="books-contained">4 books</span>
-                        <a href="folder.html">Open Folder</a>
+                        <div class="folder-card-actions">
+                            <a href="folder.html">Open Folder</a>
+                            <button class="delete-folder-button" type="button">Delete Folder</button>
+                        </div>
                     </article>
                     <div class="new-folder-card">
                         <button type="button" class="new-folder-button" id="new-folder-button">
@@ -78,6 +81,6 @@
     <script src="../../scripts/common/axios.min.js"></script>
     <script src="../../scripts/common/env.js"></script>
     <script src="../../scripts/common/helper.js"></script>
-    <script src="../../scripts/pages/my_folders.js"></script>
+    <script src="../../scripts/pages/my_folders.js?v=20260826-2"></script>
 </body>
 </html>

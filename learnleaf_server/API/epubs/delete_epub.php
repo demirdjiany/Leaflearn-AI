@@ -55,6 +55,35 @@
         return;
     }
 
+   // Get the EPUB file paths before deleting the database records
+    $sql = "SELECT epub_file_path FROM books WHERE id = ?";
+    $query = $mysql->prepare($sql);
+    $query->bind_param("i", $epub_id);
+    $query->execute();
+
+    $result = $query->get_result();
+    $epub_file_data = $result->fetch_assoc();
+
+    if(!$epub_file_data){
+        echo json_encode(["success"=> false,"message"=> "epub file path could not be found"]);
+        return;
+    }
+
+    $epub_file_path = $epub_file_data["epub_file_path"];
+
+    //Deleting the actual files stored in the computer
+    $upload_directory = __DIR__ . "/../../uploads/epubs/";
+
+    $stored_filename = basename($epub_file_path);
+    $absolute_file_path = $upload_directory . $stored_filename;
+
+    if (is_file($absolute_file_path)) {
+        if (!unlink($absolute_file_path)) {
+            echo json_encode(["success"=> false,"message"=> "could not remove epub file"]);
+            return;
+        }
+    }
+
     //Delete query
     $sql = "DELETE FROM books WHERE id = ? AND folder_id = ? LIMIT 1";
     $query = $mysql->prepare($sql);

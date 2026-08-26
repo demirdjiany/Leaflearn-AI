@@ -142,6 +142,7 @@ function renderBookCards(epubs_data){
         const book_title = document.createElement("h3");
         const delete_button = document.createElement("button");
         const card_information = document.createElement("div");
+        const card_actions = document.createElement("div");
         const file_label = document.createElement("p");
         const original_filename = document.createElement("p");
         const progress_information = document.createElement("div");
@@ -154,6 +155,7 @@ function renderBookCards(epubs_data){
         card_title.classList.add("card-title");
         delete_button.classList.add("delete-book-button");
         card_information.classList.add("card-information");
+        card_actions.classList.add("book-card-actions");
         file_label.classList.add("book-author");
         original_filename.classList.add("book-description");
         progress_information.classList.add("book-progress");
@@ -165,7 +167,7 @@ function renderBookCards(epubs_data){
 
         book_title.textContent = epub_data.title;
         delete_button.type = "button";
-        delete_button.textContent = "×";
+        delete_button.textContent = "Delete Book";
         delete_button.title = `Delete ${epub_data.title}`;
         delete_button.setAttribute("aria-label", `Delete ${epub_data.title}`);
         file_label.textContent = "EPUB file";
@@ -179,9 +181,10 @@ function renderBookCards(epubs_data){
             openBookDeletionConfirmation(epub_data);
         });
 
-        card_title.append(book_title, delete_button);
+        card_title.append(book_title);
         progress_information.append(progress_label, reading_progress);
-        card_information.append(file_label, original_filename, progress_information, link_to_book);
+        card_actions.append(link_to_book, delete_button);
+        card_information.append(file_label, original_filename, progress_information, card_actions);
         book_card.append(card_title, card_information);
         book_grid.append(book_card);
     });
